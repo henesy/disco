@@ -7,7 +7,7 @@ all:
 install: all
 	cp ./disco $home/bin/$GOARCH/disco
 
-deps: crypto
+deps: 
 	mkdir -p $GOPATH/src/bitbucket.org/henesy/disco
 	dircp ./ $GOPATH/src/bitbucket.org/henesy/disco
 
