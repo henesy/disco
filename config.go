@@ -22,9 +22,9 @@ type Configuration struct {
 // Config is the global configuration of discord-cli
 var Config Configuration
 
-//GetConfig retrieves configuration file from ~./config/discord-cli, if it doesn't exist it calls CreateConfig()
+//GetConfig retrieves configuration file from $home/lib/disco.cfg, if it doesn't exist it calls CreateConfig()
 func GetConfig() {
-	//Get User
+//Get User
 Start:
 	usr, err := user.Current()
 	if err != nil {
@@ -32,7 +32,7 @@ Start:
 	}
 
 	//Get File
-	file, err := os.Open(usr.HomeDir + "/lib/disco-cfg.json")
+	file, err := os.Open(usr.HomeDir + "/lib/disco.cfg")
 	if err != nil {
 		log.Println("Creating new config file")
 		CreateConfig()
@@ -48,7 +48,7 @@ Start:
 	}
 }
 
-//CreateConfig creates folder inside $HOME and makes a new empty configuration file
+//CreateConfig creates folder inside $home and makes a new empty configuration file
 func CreateConfig() {
 	//Get User
 	usr, err := user.Current()
@@ -69,14 +69,8 @@ func CreateConfig() {
 	EmptyStruct.Messages = 10
 	EmptyStruct.MessageDefault = true
 
-	//Create Folder
-	err = os.MkdirAll(usr.HomeDir+"/.config/discord-cli/", os.ModePerm)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
 	//Create File
-	file, err := os.Create(usr.HomeDir + "/.config/discord-cli/config.json")
+	file, err := os.Create(usr.HomeDir + "/lib/disco.cfg")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -105,11 +99,11 @@ func CheckState() {
 	}
 
 	if Config.Username == "" {
-		log.Fatalln("No Username Specified, please edit " + usr.HomeDir + "/.config/discord-cli/config.json")
+		log.Fatalln("No Username Specified, please edit " + usr.HomeDir + "/lib/disco.cfg")
 	}
 
 	if Config.Password == "" {
-		log.Fatalln("No Password Specified, please edit " + usr.HomeDir + "/.config/discord-cli/config.json")
+		log.Fatalln("No Password Specified, please edit " + usr.HomeDir + "/lib/disco.cfg")
 	}
 
 }
