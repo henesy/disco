@@ -53,16 +53,9 @@ func main() {
 	//Attach Even Handlers
 	State.Session.DiscordGo.AddHandler(newMessage)
 	//State.Session.DiscordGo.AddHandler(newReaction)
-	//Setup Readline
-	/*
-	rl, err := readline.NewEx(&readline.Config{
-		Prompt:         "> ",
-		UniqueEditLine: true,
-	})
-	*/
 
 	//defer rl.Close()
-	//log.SetOutput(rl.Stderr()) // let "log" write to l.Stderr instead of os.Stderr
+	log.SetOutput(os.Stderr) // let "log" write to l.Stderr instead of os.Stderr
 	State.Session.DiscordGo.UpdateStatus(0, "discord-cli")
 
 	//Start Listening
@@ -71,7 +64,7 @@ func main() {
 		fmt.Print("> ")
 		//line, _ := rl.Readline()
 		line, _ := reader.ReadString('\n')
-		
+		line = line[:len(line)-1]
 
 		//QUIT
 		if line == ":q" {

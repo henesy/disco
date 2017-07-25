@@ -45,7 +45,7 @@ func Msg(MsgType, format string, a ...interface{}) {
 	default:
 		Text.Printf(format, a...)
 	}*/
-	fmt.Print(a...)
+	fmt.Printf(format, a...)
 }
 
 //Clear clears the terminal => This barely works, please fix
