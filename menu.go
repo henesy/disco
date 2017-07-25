@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"bufio"
+	"os"
 )
 
 //SelectPrivateMenu is a menu item that changes to a private channel
@@ -217,7 +219,7 @@ Start:
 	Msg(InfoMsg, "Extra Options:\n")
 	Msg(TextMsg, "[n] Join New Server\n")
 	Msg(TextMsg, "[d] Leave Server\n")
-	Msg(TextMsg, "[o] Join Official discord-cli Server\n")
+	Msg(TextMsg, "[o] Join Official 9fans Server\n")
 	Msg(TextMsg, "[b] Go Back\n")
 
 	var response string
@@ -237,7 +239,11 @@ Start:
 			goto New
 		}
 		Msg(TextMsg, "Join %s ? [y/n]:\n", Invite.Guild.Name)
-		fmt.Scanf("%s\n", &response)
+		reader := bufio.NewReader(os.Stdin)
+		response, _ := reader.ReadString('\n')
+		response = response[:len(response)-1]
+		
+		//fmt.Scanf("%s\n", &response)
 		if response == "y" {
 			Session.DiscordGo.InviteAccept(Invite.Code)
 			err := Session.Update()
@@ -248,12 +254,12 @@ Start:
 			goto Start
 		}
 	case "o":
-		_, err := Session.DiscordGo.InviteAccept("0pXWCo5RQbVuFHDM")
+		_, err := Session.DiscordGo.InviteAccept("https://discord.gg/6daut5T")
 		if err != nil {
-			Msg(ErrorMsg, "Joining Official discord-cli Server failed\n")
+			Msg(ErrorMsg, "Joining Official 9fans Server failed\n")
 			goto Start
 		}
-		Msg(InfoMsg, "Joined Official discord-cli Server!\n")
+		Msg(InfoMsg, "Joined Official 9fans Server!\n")
 	case "d":
 		LeaveServerMenu()
 		goto Start

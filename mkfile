@@ -18,3 +18,14 @@ crypto:
 	hget https://github.com/golang/crypto/archive/master.zip > crypto.zip; unzip -f crypto.zip
 	dircp crypto-master crypto; rm -r crypto-master
 	cd $orig
+
+rebuild: 
+	go install bitbucket.org/henesy/disco
+	mk install
+
+bins: 
+	arch=(amd64 386 arm)
+	for(a in $arch){
+		GOARCH=$a go build
+		cp disco bin/^$a^/
+	}

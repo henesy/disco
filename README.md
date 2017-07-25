@@ -32,3 +32,7 @@ Commands available in chat:
 | :c      | Change listening Channel inside Guild |
 | :m [n]      | Display last [n] messages: ex. `:m 2` displays last two messages |
 | :p      | Pulls up the private channel menu |
+
+## Notes
+
+If you can connect to a channel and see messages, but yours aren't sending, check to make sure your e-mail address is verified.

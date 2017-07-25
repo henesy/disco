@@ -38,7 +38,7 @@ func main() {
 	GetConfig()
 	CheckState()
 	Clear()
-	Msg(HeaderMsg, "disco ­ version: %s\n\n", Version)
+	Msg(HeaderMsg, "disco version: %s\n\n", Version)
 
 	//NewSession
 	Session = DiscordState.NewSession(Config.Username, Config.Password) //Please don't abuse
@@ -75,9 +75,10 @@ func main() {
 		line = ParseForCommands(line)
 
 		line = ParseForMentions(line)
-
+		
 		if line != "" {
-			State.Session.DiscordGo.ChannelMessageSend(State.Channel.ID, line)
+			/*_ ,err :=*/ State.Session.DiscordGo.ChannelMessageSend(State.Channel.ID, line)
+			//fmt.Print("Error: ", err, "\n")
 		}
 	}
 
