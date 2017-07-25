@@ -20,7 +20,7 @@ const (
 )
 
 //Version is current version const
-const Version = "v1.4.3 - Box Develop~"
+const Version = "1.0"
 
 //Session is global Session
 var Session *DiscordState.Session
@@ -38,7 +38,7 @@ func main() {
 	GetConfig()
 	CheckState()
 	Clear()
-	Msg(HeaderMsg, "discord-cli - version: %s\n\n", Version)
+	Msg(HeaderMsg, "disco ­ version: %s\n\n", Version)
 
 	//NewSession
 	Session = DiscordState.NewSession(Config.Username, Config.Password) //Please don't abuse
