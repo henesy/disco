@@ -8,7 +8,7 @@ import (
 	"os"
 	"os/user"
 
-	"golang.org/x/crypto/ssh/terminal"
+//	"golang.org/x/crypto/ssh/terminal"
 )
 
 //Configuration is a struct that contains all configuration fields
@@ -64,7 +64,38 @@ func CreateConfig() {
 
 	EmptyStruct.Username = scan.Text()
 	fmt.Println("Input your password")
-	password, err := terminal.ReadPassword(0)
+	//password, err := terminal.ReadPassword(0)
+	
+	plan9 := true
+	/* Plan 9 raw mode for rio */
+	consctl, err := os.Open("/dev/consctl")
+	if err != nil {
+		/* not on Plan 9 */
+		plan9 = false
+	}
+	
+	password := "";
+	
+	if plan9 {
+		rawon := make([]byte, 5)
+		rawon = []byte("rawon")
+		_, err = consctl.Write(rawon)
+		if err != nil {
+			fmt.Println("Failed to set rawon")
+		} else {
+			cons, err := os.Open("/dev/cons")
+			scan := bufio.NewScanner(cons)
+			scan.Scan()
+			password = scan.Text()
+			rawoff := make([]byte, 6)
+			rawoff = []byte("rawoff")
+			_, err = consctl.Write(rawoff)
+			if err != nil {
+				fmt.Println("Failed to set rawoff")
+			}
+		}
+	}
+	
 	EmptyStruct.Password = string(password)
 	EmptyStruct.Messages = 10
 	EmptyStruct.MessageDefault = true
