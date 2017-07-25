@@ -22,7 +22,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/gorilla/websocket"
+	"bitbucket.org/henesy/disco/websocket"
 )
 
 type handshakeProperties struct {

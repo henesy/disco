@@ -19,7 +19,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gorilla/websocket"
+	"bitbucket.org/henesy/disco/websocket"
 )
 
 // ------------------------------------------------------------------------------------------------
