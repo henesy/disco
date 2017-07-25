@@ -78,8 +78,7 @@ func CreateConfig() {
 	password := "";
 	
 	if plan9 {
-		rawon := make([]byte, 5)
-		rawon = []byte("rawon")
+		rawon := []byte("rawon")
 		_, err = consctl.Write(rawon)
 		if err != nil {
 			fmt.Println("Failed to set rawon")
@@ -92,15 +91,14 @@ func CreateConfig() {
 			consScan.Scan()
 			password = consScan.Text()
 			
-			
-			rawoff := make([]byte, 6)
-			rawoff = []byte("rawoff")
+			rawoff := []byte("rawoff")
 			_, err = consctl.Write(rawoff)
 			if err != nil {
 				fmt.Println("Failed to set rawoff")
 			}
 		}
 	} else {
+		/* Maybe put linux terminal raw mode in here one day */
 		fmt.Println("Skipping raw input for Plan 9")
 	}
 	
