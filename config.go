@@ -68,7 +68,7 @@ func CreateConfig() {
 	
 	plan9 := true
 	/* Plan 9 raw mode for rio */
-	consctl, err := os.Open("/dev/consctl")
+	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
 	if err != nil {
 		/* not on Plan 9 */
 		plan9 = false
