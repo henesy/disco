@@ -83,11 +83,11 @@ func CreateConfig() {
 		if err != nil {
 			fmt.Println("Failed to set rawon")
 		} else {
-			cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
-			if err != nil {
-				fmt.Println("Failed to open /dev/cons")
-			}
-			scan := bufio.NewScanner(cons)
+			//cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
+			//if err != nil {
+			//	fmt.Println("Failed to open /dev/cons")
+			//}
+			//scan := bufio.NewScanner(cons)
 			scan.Scan()
 			password = scan.Text()
 			rawoff := make([]byte, 6)
