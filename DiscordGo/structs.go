@@ -17,7 +17,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gorilla/websocket"
+	"bitbucket.org/henesy/disco/websocket"
 )
 
 // A Session represents a connection to the Discord API.
