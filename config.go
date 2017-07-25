@@ -71,6 +71,7 @@ func CreateConfig() {
 	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
 	if err != nil {
 		/* not on Plan 9 */
+		fmt.Println("Not running on Plan 9")
 		plan9 = false
 	}
 	
@@ -83,13 +84,15 @@ func CreateConfig() {
 		if err != nil {
 			fmt.Println("Failed to set rawon")
 		} else {
-			//cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
-			//if err != nil {
-			//	fmt.Println("Failed to open /dev/cons")
-			//}
-			//scan := bufio.NewScanner(cons)
-			scan.Scan()
-			password = scan.Text()
+			cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
+			if err != nil {
+				fmt.Println("Failed to open /dev/cons")
+			}
+			consScan := bufio.NewScanner(cons)
+			consScan.Scan()
+			password = consScan.Text()
+			
+			
 			rawoff := make([]byte, 6)
 			rawoff = []byte("rawoff")
 			_, err = consctl.Write(rawoff)
@@ -97,6 +100,8 @@ func CreateConfig() {
 				fmt.Println("Failed to set rawoff")
 			}
 		}
+	} else {
+		fmt.Println("Skipping raw input for Plan 9")
 	}
 	
 	EmptyStruct.Password = string(password)
