@@ -1,6 +1,6 @@
-# Disco
+# disco ­ [Discord](https://discord.gg) client for 9Front
 
-Hacked up version of theboxmage's discord-cli (see README.theboxmage.md)
+Hacked up version of theboxmage's [discord-cli](https://github.com/theboxmage/discordcli)
 
 JSON config is in `$home/lib/disco-cfg.json` for setting password, should be made automatically after first run.
 
