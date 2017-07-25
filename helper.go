@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
 	"os/exec"
 	"strings"
 	"time"
@@ -20,13 +19,6 @@ type HexColor struct {
 //Msg is a composition of Color.New printf functions
 func Msg(MsgType, format string, a ...interface{}) {
 	fmt.Printf(format, a...)
-}
-
-//Clear clears the terminal => This barely works, please fix → Nope
-func Clear() {
-	c := exec.Command("clear")
-	c.Stdout = os.Stdout
-	c.Run()
 }
 
 //Header simply prints a header containing state/session information

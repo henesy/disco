@@ -37,7 +37,6 @@ func main() {
 	//Initialize Config
 	GetConfig()
 	CheckState()
-	Clear()
 	Msg(HeaderMsg, "disco version: %s\n\n", Version)
 
 	//NewSession
@@ -97,7 +96,6 @@ func InitWindow() {
 
 //ShowContent shows defaulth Channel content
 func ShowContent() {
-	Clear()
 	Header()
 	if Config.MessageDefault {
 		State.RetrieveMessages(Config.Messages)
@@ -107,7 +105,6 @@ func ShowContent() {
 
 //ShowEmptyContent shows an empty channel
 func ShowEmptyContent() {
-	Clear()
 	Header()
 }
 
