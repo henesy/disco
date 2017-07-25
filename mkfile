@@ -1,7 +1,13 @@
+GOOS=plan9
+GOARCH=$objtype
+
 all: 
 	go build
 
-deps: 
+install: all
+	cp ./disco $home/bin/$GOARCH/disco
+
+deps: crypto
 	mkdir -p $GOPATH/src/bitbucket.org/henesy/disco
 	dircp ./ $GOPATH/src/bitbucket.org/henesy/disco
 
