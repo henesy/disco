@@ -1,0 +1,12 @@
+Commands:
+
+:r -- register via Register(email)
+
+:u -- change username via UserUpdate
+
+Features:
+
+* remove JSON config
+
+* read $home/lib/discord.face for profile picture (or just face?)
+
