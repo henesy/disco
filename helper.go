@@ -2,11 +2,13 @@ package main
 
 import (
 	"log"
+	"os"
 	"os/exec"
 	"strings"
 	"time"
 	"fmt"
 	"bitbucket.org/henesy/disco/DiscordGo"
+	"bufio"
 )
 
 //HexColor is a struct gives RGB values
@@ -95,7 +97,7 @@ func dis(a, b int) float64 {
 	return float64((a - b) * (a - b))
 }
 
-func Rawon() {
+func Rawon() error {
 	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
 	if err != nil {
 		/* not on Plan 9 */
@@ -112,7 +114,7 @@ func Rawon() {
 	return nil
 }
 
-func RawOff() {
+func RawOff() error {
 	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
 	if err != nil {
 		/* not on Plan 9 */
@@ -128,7 +130,7 @@ func RawOff() {
 	return nil
 }
 
-func GetPass() {
+func GetPass() string {
 	cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
 	if err != nil {
 		fmt.Println("Failed to open /dev/cons")

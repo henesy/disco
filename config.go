@@ -79,7 +79,7 @@ func CreateConfig() {
 	if plan9 {
 		password = GetPass()
 		
-		err = Rawoff()
+		err = RawOff()
 		if err != nil {
 			fmt.Println("Failed to set rawoff")
 		}
