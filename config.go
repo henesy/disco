@@ -87,7 +87,7 @@ func CreateConfig() {
 	
 		err = RawOff()
 		if err != nil {
-			fmt.Println("Failed to set rawoff")
+			fmt.Println("\nFailed to set rawoff")
 			fmt.Print(err, "\n")
 		}
 	} else {
