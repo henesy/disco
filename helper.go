@@ -8,7 +8,6 @@ import (
 	"time"
 	"fmt"
 	"bitbucket.org/henesy/disco/DiscordGo"
-	"bufio"
 )
 
 //HexColor is a struct gives RGB values
@@ -128,14 +127,4 @@ func RawOff() error {
 	}
 	
 	return nil
-}
-
-func GetPass() string {
-	cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
-	if err != nil {
-		fmt.Println("Failed to open /dev/cons")
-	}
-	consScan := bufio.NewScanner(cons)
-	consScan.Scan()
-	return consScan.Text()
 }
