@@ -96,34 +96,33 @@ func dis(a, b int) float64 {
 	return float64((a - b) * (a - b))
 }
 
-func Rawon() error {
+func Rawon() (*os.File, error){
 	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
 	if err != nil {
 		/* not on Plan 9 */
 		fmt.Println("\nNot running on Plan 9")
-		return err
+		return consctl, err
 	}
 	
 	rawon := []byte("rawon")
 	_, err = consctl.Write(rawon)
 	if err != nil {
 		consctl.Close()
-		return err
+		return consctl, err
 	}
 	
-	consctl.Close()
-	return nil
+	return consctl, nil
 }
 
-func RawOff() error {
-	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
-	if err != nil {
-		/* not on Plan 9 */
-		return err
-	}
+func RawOff(consctl *os.File) error {
+	//consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
+	//if err != nil {
+	//	/* not on Plan 9 */
+	//	return err
+	//}
 	
 	rawoff := []byte("rawoff")
-	_, err = consctl.Write(rawoff)
+	_, err := consctl.Write(rawoff)
 	if err != nil {
 		consctl.Close()
 		return err

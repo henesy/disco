@@ -68,7 +68,7 @@ func CreateConfig() {
 	
 	plan9 := true
 	/* Plan 9 raw mode for rio */
-	err = Rawon()
+	consctl, err := Rawon()
 	if err != nil {
 		fmt.Println("Failed to set rawon")
 		plan9 = false
@@ -85,7 +85,7 @@ func CreateConfig() {
 		consScan.Scan()
 		password = consScan.Text()
 	
-		err = RawOff()
+		err = RawOff(consctl)
 		if err != nil {
 			fmt.Println("\nFailed to set rawoff")
 			fmt.Print(err, "\n")
