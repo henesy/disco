@@ -94,3 +94,46 @@ func MessagePrint(Time, Username, Content string) {
 func dis(a, b int) float64 {
 	return float64((a - b) * (a - b))
 }
+
+func Rawon() {
+	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
+	if err != nil {
+		/* not on Plan 9 */
+		fmt.Println("\nNot running on Plan 9")
+		return err
+	}
+	
+	rawon := []byte("rawon")
+	_, err = consctl.Write(rawon)
+	if err != nil {
+		return err
+	}
+	
+	return nil
+}
+
+func RawOff() {
+	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
+	if err != nil {
+		/* not on Plan 9 */
+		return err
+	}
+	
+	rawoff := []byte("rawoff")
+	_, err = consctl.Write(rawoff)
+	if err != nil {
+		return err
+	}
+	
+	return nil
+}
+
+func GetPass() {
+	cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
+	if err != nil {
+		fmt.Println("Failed to open /dev/cons")
+	}
+	consScan := bufio.NewScanner(cons)
+	consScan.Scan()
+	return consScan.Text()
+}
