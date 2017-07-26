@@ -107,9 +107,11 @@ func Rawon() error {
 	rawon := []byte("rawon")
 	_, err = consctl.Write(rawon)
 	if err != nil {
+		consctl.Close()
 		return err
 	}
 	
+	consctl.Close()
 	return nil
 }
 
@@ -123,8 +125,10 @@ func RawOff() error {
 	rawoff := []byte("rawoff")
 	_, err = consctl.Write(rawoff)
 	if err != nil {
+		consctl.Close()
 		return err
 	}
 	
+	consctl.Close()
 	return nil
 }
