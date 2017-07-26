@@ -77,11 +77,18 @@ func CreateConfig() {
 	password := "";
 	
 	if plan9 {
-		password = GetPass()
-		
+		cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
+		if err != nil {
+			fmt.Println("Failed to open /dev/cons")
+		}
+		consScan := bufio.NewScanner(cons)
+		consScan.Scan()
+		password = consScan.Text()
+	
 		err = RawOff()
 		if err != nil {
 			fmt.Println("Failed to set rawoff")
+			fmt.Print(err, "\n")
 		}
 	} else {
 		/* Maybe put linux terminal raw mode in here one day */
