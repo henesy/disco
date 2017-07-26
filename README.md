@@ -2,7 +2,7 @@
 
 Hacked up version of theboxmage's [discord-cli](https://github.com/theboxmage/discordcli)
 
-JSON config is in `$home/lib//lib/disco.cfg` for setting password, should be made automatically after first run.
+JSON config is in `$home/lib/disco.cfg` for setting password, should be made automatically after first run.
 
 ## Install
 
@@ -27,7 +27,7 @@ Commands available in chat:
 
 | Command       | Function         |
 | ------------- |-------------|
-| :q      | Quits discord-cli |
+| :q      | Quits disco |
 | :g      | Change listening Guild|
 | :c      | Change listening Channel inside Guild |
 | :m [n]      | Display last [n] messages: ex. `:m 2` displays last two messages |

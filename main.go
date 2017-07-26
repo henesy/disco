@@ -76,8 +76,10 @@ func main() {
 		line = ParseForMentions(line)
 		
 		if line != "" {
-			/*_ ,err :=*/ State.Session.DiscordGo.ChannelMessageSend(State.Channel.ID, line)
-			//fmt.Print("Error: ", err, "\n")
+			_ ,err := State.Session.DiscordGo.ChannelMessageSend(State.Channel.ID, line)
+			if err != nil {
+				fmt.Print("Error: ", err, "\n")
+			}
 		}
 	}
 

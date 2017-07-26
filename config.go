@@ -58,44 +58,30 @@ func CreateConfig() {
 
 	var EmptyStruct Configuration
 	//Set Default values
-	fmt.Println("Input your email")
+	fmt.Print("Input your email: ")
 	scan := bufio.NewScanner(os.Stdin)
 	scan.Scan()
 
 	EmptyStruct.Username = scan.Text()
-	fmt.Println("Input your password")
+	fmt.Print("Input your password: ")
 	//password, err := terminal.ReadPassword(0)
 	
 	plan9 := true
 	/* Plan 9 raw mode for rio */
-	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
+	err = Rawon()
 	if err != nil {
-		/* not on Plan 9 */
-		fmt.Println("Not running on Plan 9")
+		fmt.Println("Failed to set rawon")
 		plan9 = false
 	}
 	
 	password := "";
 	
 	if plan9 {
-		rawon := []byte("rawon")
-		_, err = consctl.Write(rawon)
+		password = GetPass()
+		
+		err = Rawoff()
 		if err != nil {
-			fmt.Println("Failed to set rawon")
-		} else {
-			cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
-			if err != nil {
-				fmt.Println("Failed to open /dev/cons")
-			}
-			consScan := bufio.NewScanner(cons)
-			consScan.Scan()
-			password = consScan.Text()
-			
-			rawoff := []byte("rawoff")
-			_, err = consctl.Write(rawoff)
-			if err != nil {
-				fmt.Println("Failed to set rawoff")
-			}
+			fmt.Println("Failed to set rawoff")
 		}
 	} else {
 		/* Maybe put linux terminal raw mode in here one day */
