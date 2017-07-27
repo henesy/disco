@@ -121,6 +121,7 @@ func (Session *Session) Update() error {
 		return err
 	}
 
+	// this doesn't seem to actually work.
 	Session.Guilds = UserGuilds
 	return nil
 }

@@ -238,7 +238,7 @@ Start:
 			Msg(ErrorMsg, "Invalid Invite\n")
 			goto New
 		}
-		Msg(TextMsg, "Join %s ? [y/n]:\n", Invite.Guild.Name)
+		Msg(TextMsg, "Join %s ? [y/n]: ", Invite.Guild.Name)
 		reader := bufio.NewReader(os.Stdin)
 		response, _ := reader.ReadString('\n')
 		response = response[:len(response)-1]
