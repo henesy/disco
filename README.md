@@ -20,8 +20,6 @@ JSON config is in `$home/lib/disco.cfg` for setting password, should be made aut
 
 * Does not support 2FA (Discord API explicitly does not allow this)
 
-* Cutting and pasting text might break things
-
 * ~~:g switching guilds crashes the client~~ Add private channel switch later
 
 * You have to verify your e-mail regularly (i guess?)

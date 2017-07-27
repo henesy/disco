@@ -10,3 +10,4 @@ Features:
 
 * read $home/lib/discord.face for profile picture (or just face?)
 
+* if ``` entered, allow multi-line message (composition)
