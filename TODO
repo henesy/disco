@@ -11,3 +11,10 @@ Features:
 * read $home/lib/discord.face for profile picture (or just face?)
 
 * if ``` entered, allow multi-line message (composition)
+
+* replace <:emoji:3lk4j12:> garbage with :emoji:
+
+* clean up @'s
+
+* replace libnotify shenanigans, add a goroutine to check for pings
+
