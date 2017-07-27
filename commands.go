@@ -49,9 +49,10 @@ func ParseForCommands(line string) string {
 func SelectGuild() {
 	State.Enabled = false
 	SelectGuildMenu()
-	if !State.Channel.IsPrivate {
-		SelectChannelMenu()
-	}
+	/* this causes a segfault, investigate later */
+	//if !State.Channel.IsPrivate {
+	SelectChannelMenu()
+	//}
 	State.Enabled = true
 	ShowContent()
 }
