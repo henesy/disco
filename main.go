@@ -60,7 +60,7 @@ func main() {
 	//Start Listening
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		fmt.Print("> ")
+		//fmt.Print("> ")
 		//line, _ := rl.Readline()
 		line, _ := reader.ReadString('\n')
 		line = line[:len(line)-1]
