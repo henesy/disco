@@ -4,6 +4,8 @@ Commands:
 
 :u -- change username via UserUpdate
 
+:d [n] [file] -- dump backlog of last 'n' msgs to a file 'file'
+
 Features:
 
 * remove JSON config
@@ -18,3 +20,4 @@ Features:
 
 * replace libnotify shenanigans, add a goroutine to check for pings
 
+* flag for larger backlog loading
