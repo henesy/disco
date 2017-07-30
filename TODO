@@ -12,6 +12,10 @@ Features:
 
 * read $home/lib/discord.face for profile picture (or just face?)
 
+* delete disco.cfg on failure to log in for 400 bad request: password does not match
+
+* ensure proper permissions -rw------- 0600 for discord.cfg
+
 * if ``` entered, allow multi-line message (composition)
 
 * replace <:emoji:3lk4j12:> garbage with :emoji:
