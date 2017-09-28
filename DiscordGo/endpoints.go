@@ -11,78 +11,125 @@
 
 package discordgo
 
+// APIVersion is the Discord API version used for the REST and Websocket API.
+var APIVersion = "6"
+
 // Known Discord API Endpoints.
 var (
-	STATUS      = "https://status.discordapp.com/api/v2/"
-	SM          = STATUS + "scheduled-maintenances/"
-	SM_ACTIVE   = SM + "active.json"
-	SM_UPCOMING = SM + "upcoming.json"
+	EndpointStatus     = "https://status.discordapp.com/api/v2/"
+	EndpointSm         = EndpointStatus + "scheduled-maintenances/"
+	EndpointSmActive   = EndpointSm + "active.json"
+	EndpointSmUpcoming = EndpointSm + "upcoming.json"
 
-	DISCORD  = "https://discordapp.com" // TODO consider removing
-	API      = DISCORD + "/api/"
-	GUILDS   = API + "guilds/"
-	CHANNELS = API + "channels/"
-	USERS    = API + "users/"
-	GATEWAY  = API + "gateway"
+	EndpointDiscord    = "https://discordapp.com/"
+	EndpointAPI        = EndpointDiscord + "api/v" + APIVersion + "/"
+	EndpointGuilds     = EndpointAPI + "guilds/"
+	EndpointChannels   = EndpointAPI + "channels/"
+	EndpointUsers      = EndpointAPI + "users/"
+	EndpointGateway    = EndpointAPI + "gateway"
+	EndpointGatewayBot = EndpointGateway + "/bot"
+	EndpointWebhooks   = EndpointAPI + "webhooks/"
 
-	AUTH            = API + "auth/"
-	LOGIN           = AUTH + "login"
-	LOGOUT          = AUTH + "logout"
-	VERIFY          = AUTH + "verify"
-	VERIFY_RESEND   = AUTH + "verify/resend"
-	FORGOT_PASSWORD = AUTH + "forgot"
-	RESET_PASSWORD  = AUTH + "reset"
-	REGISTER        = AUTH + "register"
+	EndpointCDN             = "https://cdn.discordapp.com/"
+	EndpointCDNAttachments  = EndpointCDN + "attachments/"
+	EndpointCDNAvatars      = EndpointCDN + "avatars/"
+	EndpointCDNIcons        = EndpointCDN + "icons/"
+	EndpointCDNSplashes     = EndpointCDN + "splashes/"
+	EndpointCDNChannelIcons = EndpointCDN + "channel-icons/"
 
-	VOICE         = API + "/voice/"
-	VOICE_REGIONS = VOICE + "regions"
-	VOICE_ICE     = VOICE + "ice"
+	EndpointAuth           = EndpointAPI + "auth/"
+	EndpointLogin          = EndpointAuth + "login"
+	EndpointLogout         = EndpointAuth + "logout"
+	EndpointVerify         = EndpointAuth + "verify"
+	EndpointVerifyResend   = EndpointAuth + "verify/resend"
+	EndpointForgotPassword = EndpointAuth + "forgot"
+	EndpointResetPassword  = EndpointAuth + "reset"
+	EndpointRegister       = EndpointAuth + "register"
 
-	TUTORIAL            = API + "tutorial/"
-	TUTORIAL_INDICATORS = TUTORIAL + "indicators"
+	EndpointVoice        = EndpointAPI + "/voice/"
+	EndpointVoiceRegions = EndpointVoice + "regions"
+	EndpointVoiceIce     = EndpointVoice + "ice"
 
-	TRACK        = API + "track"
-	SSO          = API + "sso"
-	REPORT       = API + "report"
-	INTEGRATIONS = API + "integrations"
+	EndpointTutorial           = EndpointAPI + "tutorial/"
+	EndpointTutorialIndicators = EndpointTutorial + "indicators"
 
-	USER             = func(uID string) string { return USERS + uID }
-	USER_AVATAR      = func(uID, aID string) string { return USERS + uID + "/avatars/" + aID + ".jpg" }
-	USER_SETTINGS    = func(uID string) string { return USERS + uID + "/settings" }
-	USER_GUILDS      = func(uID string) string { return USERS + uID + "/guilds" }
-	USER_GUILD       = func(uID, gID string) string { return USERS + uID + "/guilds/" + gID }
-	USER_CHANNELS    = func(uID string) string { return USERS + uID + "/channels" }
-	USER_DEVICES     = func(uID string) string { return USERS + uID + "/devices" }
-	USER_CONNECTIONS = func(uID string) string { return USERS + uID + "/connections" }
+	EndpointTrack        = EndpointAPI + "track"
+	EndpointSso          = EndpointAPI + "sso"
+	EndpointReport       = EndpointAPI + "report"
+	EndpointIntegrations = EndpointAPI + "integrations"
 
-	GUILD              = func(gID string) string { return GUILDS + gID }
-	GUILD_INIVTES      = func(gID string) string { return GUILDS + gID + "/invites" }
-	GUILD_CHANNELS     = func(gID string) string { return GUILDS + gID + "/channels" }
-	GUILD_MEMBERS      = func(gID string) string { return GUILDS + gID + "/members" }
-	GUILD_MEMBER       = func(gID, uID string) string { return GUILDS + gID + "/members/" + uID }
-	GUILD_BANS         = func(gID string) string { return GUILDS + gID + "/bans" }
-	GUILD_BAN          = func(gID, uID string) string { return GUILDS + gID + "/bans/" + uID }
-	GUILD_INTEGRATIONS = func(gID string) string { return GUILDS + gID + "/integrations" }
-	GUILD_ROLES        = func(gID string) string { return GUILDS + gID + "/roles" }
-	GUILD_ROLE         = func(gID, rID string) string { return GUILDS + gID + "/roles/" + rID }
-	GUILD_INVITES      = func(gID string) string { return GUILDS + gID + "/invites" }
-	GUILD_EMBED        = func(gID string) string { return GUILDS + gID + "/embed" }
-	GUILD_PRUNE        = func(gID string) string { return GUILDS + gID + "/prune" }
-	GUILD_ICON         = func(gID, hash string) string { return GUILDS + gID + "/icons/" + hash + ".jpg" }
-	GUILD_SPLASH       = func(gID, hash string) string { return GUILDS + gID + "/splashes/" + hash + ".jpg" }
+	EndpointUser               = func(uID string) string { return EndpointUsers + uID }
+	EndpointUserAvatar         = func(uID, aID string) string { return EndpointCDNAvatars + uID + "/" + aID + ".png" }
+	EndpointUserAvatarAnimated = func(uID, aID string) string { return EndpointCDNAvatars + uID + "/" + aID + ".gif" }
+	EndpointUserSettings       = func(uID string) string { return EndpointUsers + uID + "/settings" }
+	EndpointUserGuilds         = func(uID string) string { return EndpointUsers + uID + "/guilds" }
+	EndpointUserGuild          = func(uID, gID string) string { return EndpointUsers + uID + "/guilds/" + gID }
+	EndpointUserGuildSettings  = func(uID, gID string) string { return EndpointUsers + uID + "/guilds/" + gID + "/settings" }
+	EndpointUserChannels       = func(uID string) string { return EndpointUsers + uID + "/channels" }
+	EndpointUserDevices        = func(uID string) string { return EndpointUsers + uID + "/devices" }
+	EndpointUserConnections    = func(uID string) string { return EndpointUsers + uID + "/connections" }
+	EndpointUserNotes          = func(uID string) string { return EndpointUsers + "@me/notes/" + uID }
 
-	CHANNEL             = func(cID string) string { return CHANNELS + cID }
-	CHANNEL_PERMISSIONS = func(cID string) string { return CHANNELS + cID + "/permissions" }
-	CHANNEL_PERMISSION  = func(cID, tID string) string { return CHANNELS + cID + "/permissions/" + tID }
-	CHANNEL_INVITES     = func(cID string) string { return CHANNELS + cID + "/invites" }
-	CHANNEL_TYPING      = func(cID string) string { return CHANNELS + cID + "/typing" }
-	CHANNEL_MESSAGES    = func(cID string) string { return CHANNELS + cID + "/messages" }
-	CHANNEL_MESSAGE     = func(cID, mID string) string { return CHANNELS + cID + "/messages/" + mID }
-	CHANNEL_MESSAGE_ACK = func(cID, mID string) string { return CHANNELS + cID + "/messages/" + mID + "/ack" }
+	EndpointGuild                = func(gID string) string { return EndpointGuilds + gID }
+	EndpointGuildInivtes         = func(gID string) string { return EndpointGuilds + gID + "/invites" }
+	EndpointGuildChannels        = func(gID string) string { return EndpointGuilds + gID + "/channels" }
+	EndpointGuildMembers         = func(gID string) string { return EndpointGuilds + gID + "/members" }
+	EndpointGuildMember          = func(gID, uID string) string { return EndpointGuilds + gID + "/members/" + uID }
+	EndpointGuildMemberRole      = func(gID, uID, rID string) string { return EndpointGuilds + gID + "/members/" + uID + "/roles/" + rID }
+	EndpointGuildBans            = func(gID string) string { return EndpointGuilds + gID + "/bans" }
+	EndpointGuildBan             = func(gID, uID string) string { return EndpointGuilds + gID + "/bans/" + uID }
+	EndpointGuildIntegrations    = func(gID string) string { return EndpointGuilds + gID + "/integrations" }
+	EndpointGuildIntegration     = func(gID, iID string) string { return EndpointGuilds + gID + "/integrations/" + iID }
+	EndpointGuildIntegrationSync = func(gID, iID string) string { return EndpointGuilds + gID + "/integrations/" + iID + "/sync" }
+	EndpointGuildRoles           = func(gID string) string { return EndpointGuilds + gID + "/roles" }
+	EndpointGuildRole            = func(gID, rID string) string { return EndpointGuilds + gID + "/roles/" + rID }
+	EndpointGuildInvites         = func(gID string) string { return EndpointGuilds + gID + "/invites" }
+	EndpointGuildEmbed           = func(gID string) string { return EndpointGuilds + gID + "/embed" }
+	EndpointGuildPrune           = func(gID string) string { return EndpointGuilds + gID + "/prune" }
+	EndpointGuildIcon            = func(gID, hash string) string { return EndpointCDNIcons + gID + "/" + hash + ".png" }
+	EndpointGuildSplash          = func(gID, hash string) string { return EndpointCDNSplashes + gID + "/" + hash + ".png" }
+	EndpointGuildWebhooks        = func(gID string) string { return EndpointGuilds + gID + "/webhooks" }
 
-	INVITE = func(iID string) string { return API + "invite/" + iID }
+	EndpointChannel                   = func(cID string) string { return EndpointChannels + cID }
+	EndpointChannelPermissions        = func(cID string) string { return EndpointChannels + cID + "/permissions" }
+	EndpointChannelPermission         = func(cID, tID string) string { return EndpointChannels + cID + "/permissions/" + tID }
+	EndpointChannelInvites            = func(cID string) string { return EndpointChannels + cID + "/invites" }
+	EndpointChannelTyping             = func(cID string) string { return EndpointChannels + cID + "/typing" }
+	EndpointChannelMessages           = func(cID string) string { return EndpointChannels + cID + "/messages" }
+	EndpointChannelMessage            = func(cID, mID string) string { return EndpointChannels + cID + "/messages/" + mID }
+	EndpointChannelMessageAck         = func(cID, mID string) string { return EndpointChannels + cID + "/messages/" + mID + "/ack" }
+	EndpointChannelMessagesBulkDelete = func(cID string) string { return EndpointChannel(cID) + "/messages/bulk_delete" }
+	EndpointChannelMessagesPins       = func(cID string) string { return EndpointChannel(cID) + "/pins" }
+	EndpointChannelMessagePin         = func(cID, mID string) string { return EndpointChannel(cID) + "/pins/" + mID }
 
-	INTEGRATIONS_JOIN = func(iID string) string { return API + "integrations/" + iID + "/join" }
+	EndpointGroupIcon = func(cID, hash string) string { return EndpointCDNChannelIcons + cID + "/" + hash + ".png" }
 
-	EMOJI = func(eID string) string { return API + "emojis/" + eID + ".png" }
+	EndpointChannelWebhooks = func(cID string) string { return EndpointChannel(cID) + "/webhooks" }
+	EndpointWebhook         = func(wID string) string { return EndpointWebhooks + wID }
+	EndpointWebhookToken    = func(wID, token string) string { return EndpointWebhooks + wID + "/" + token }
+
+	EndpointMessageReactionsAll = func(cID, mID string) string {
+		return EndpointChannelMessage(cID, mID) + "/reactions"
+	}
+	EndpointMessageReactions = func(cID, mID, eID string) string {
+		return EndpointChannelMessage(cID, mID) + "/reactions/" + eID
+	}
+	EndpointMessageReaction = func(cID, mID, eID, uID string) string {
+		return EndpointMessageReactions(cID, mID, eID) + "/" + uID
+	}
+
+	EndpointRelationships       = func() string { return EndpointUsers + "@me" + "/relationships" }
+	EndpointRelationship        = func(uID string) string { return EndpointRelationships() + "/" + uID }
+	EndpointRelationshipsMutual = func(uID string) string { return EndpointUsers + uID + "/relationships" }
+
+	EndpointInvite = func(iID string) string { return EndpointAPI + "invite/" + iID }
+
+	EndpointIntegrationsJoin = func(iID string) string { return EndpointAPI + "integrations/" + iID + "/join" }
+
+	EndpointEmoji = func(eID string) string { return EndpointAPI + "emojis/" + eID + ".png" }
+
+	EndpointOauth2          = EndpointAPI + "oauth2/"
+	EndpointApplications    = EndpointOauth2 + "applications"
+	EndpointApplication     = func(aID string) string { return EndpointApplications + "/" + aID }
+	EndpointApplicationsBot = func(aID string) string { return EndpointApplications + "/" + aID + "/bot" }
 )

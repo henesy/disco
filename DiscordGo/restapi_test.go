@@ -24,14 +24,22 @@ func TestChannelMessageSend(t *testing.T) {
 	}
 }
 
+/*
+// removed for now, only works on BOT accounts now
 func TestUserAvatar(t *testing.T) {
+
 	if dg == nil {
 		t.Skip("Cannot TestUserAvatar, dg not set.")
 	}
 
-	a, err := dg.UserAvatar("@me")
+	u, err := dg.User("@me")
 	if err != nil {
-		if err.Error() == `HTTP 404 NOT FOUND, {"message": ""}` {
+		t.Error("error fetching @me user,", err)
+	}
+
+	a, err := dg.UserAvatar(u.ID)
+	if err != nil {
+		if err.Error() == `HTTP 404 NOT FOUND, {"code": 0, "message": "404: Not Found"}` {
 			t.Skip("Skipped, @me doesn't have an Avatar")
 		}
 		t.Errorf(err.Error())
@@ -41,7 +49,9 @@ func TestUserAvatar(t *testing.T) {
 		t.Errorf("a == nil, should be image.Image")
 	}
 }
+*/
 
+/* Running this causes an error due to 2/hour rate limit on username changes
 func TestUserUpdate(t *testing.T) {
 	if dg == nil {
 		t.Skip("Cannot test logout, dg not set.")
@@ -67,6 +77,7 @@ func TestUserUpdate(t *testing.T) {
 		t.Error("Username != " + u.Username)
 	}
 }
+*/
 
 //func (s *Session) UserChannelCreate(recipientID string) (st *Channel, err error) {
 
@@ -103,7 +114,7 @@ func TestUserGuilds(t *testing.T) {
 		t.Skip("Cannot TestUserGuilds, dg not set.")
 	}
 
-	_, err := dg.UserGuilds()
+	_, err := dg.UserGuilds(10, "", "")
 	if err != nil {
 		t.Errorf(err.Error())
 	}
@@ -120,6 +131,17 @@ func TestUserSettings(t *testing.T) {
 	}
 }
 
+func TestUserUpdateStatus(t *testing.T) {
+	if dg == nil {
+		t.Skip("Cannot TestUserSettings, dg not set.")
+	}
+
+	_, err := dg.UserUpdateStatus(StatusDoNotDisturb)
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+}
+
 // TestLogout tests the Logout() function. This should not return an error.
 func TestLogout(t *testing.T) {
 
@@ -130,6 +152,84 @@ func TestLogout(t *testing.T) {
 	err := dg.Logout()
 	if err != nil {
 		t.Errorf("Logout() returned error: %+v", err)
+	}
+}
+
+func TestGateway(t *testing.T) {
+
+	if dg == nil {
+		t.Skip("Skipping, dg not set.")
+	}
+	_, err := dg.Gateway()
+	if err != nil {
+		t.Errorf("Gateway() returned error: %+v", err)
+	}
+}
+
+func TestGatewayBot(t *testing.T) {
+
+	if dgBot == nil {
+		t.Skip("Skipping, dgBot not set.")
+	}
+	_, err := dgBot.GatewayBot()
+	if err != nil {
+		t.Errorf("GatewayBot() returned error: %+v", err)
+	}
+}
+
+func TestVoiceICE(t *testing.T) {
+
+	if dg == nil {
+		t.Skip("Skipping, dg not set.")
+	}
+
+	_, err := dg.VoiceICE()
+	if err != nil {
+		t.Errorf("VoiceICE() returned error: %+v", err)
+	}
+}
+
+func TestVoiceRegions(t *testing.T) {
+
+	if dg == nil {
+		t.Skip("Skipping, dg not set.")
+	}
+
+	_, err := dg.VoiceRegions()
+	if err != nil {
+		t.Errorf("VoiceRegions() returned error: %+v", err)
+	}
+}
+func TestGuildRoles(t *testing.T) {
+
+	if envGuild == "" {
+		t.Skip("Skipping, DG_GUILD not set.")
+	}
+
+	if dg == nil {
+		t.Skip("Skipping, dg not set.")
+	}
+
+	_, err := dg.GuildRoles(envGuild)
+	if err != nil {
+		t.Errorf("GuildRoles(envGuild) returned error: %+v", err)
+	}
+
+}
+
+func TestGuildMemberNickname(t *testing.T) {
+
+	if envGuild == "" {
+		t.Skip("Skipping, DG_GUILD not set.")
+	}
+
+	if dg == nil {
+		t.Skip("Skipping, dg not set.")
+	}
+
+	err := dg.GuildMemberNickname(envGuild, "@me/nick", "testnickname")
+	if err != nil {
+		t.Errorf("GuildNickname returned error: %+v", err)
 	}
 }
 
@@ -149,3 +249,39 @@ func TestChannelMessageSend2(t *testing.T) {
 		t.Errorf("ChannelMessageSend returned error: %+v", err)
 	}
 }
+
+// TestGuildPruneCount tests GuildPruneCount() function. This should not return an error.
+func TestGuildPruneCount(t *testing.T) {
+
+	if envGuild == "" {
+		t.Skip("Skipping, DG_GUILD not set.")
+	}
+
+	if dg == nil {
+		t.Skip("Skipping, dg not set.")
+	}
+
+	_, err := dg.GuildPruneCount(envGuild, 1)
+	if err != nil {
+		t.Errorf("GuildPruneCount returned error: %+v", err)
+	}
+}
+
+/*
+// TestGuildPrune tests GuildPrune() function. This should not return an error.
+func TestGuildPrune(t *testing.T) {
+
+	if envGuild == "" {
+		t.Skip("Skipping, DG_GUILD not set.")
+	}
+
+	if dg == nil {
+		t.Skip("Skipping, dg not set.")
+	}
+
+	_, err := dg.GuildPrune(envGuild, 1)
+	if err != nil {
+		t.Errorf("GuildPrune returned error: %+v", err)
+	}
+}
+*/
