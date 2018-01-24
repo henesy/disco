@@ -1,6 +1,6 @@
 package DiscordState
 
-import "bitbucket.org/henesy/disco/DiscordGo"
+import "github.com/bwmarrin/discordgo"
 
 //State is the current state of the attached client
 type State struct {
@@ -22,5 +22,5 @@ type Session struct {
 	User      *discordgo.User
 	Password  string
 	DiscordGo *discordgo.Session
-	Guilds    []*discordgo.Guild
+	Guilds    []*discordgo.UserGuild
 }

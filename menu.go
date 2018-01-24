@@ -7,7 +7,7 @@ import (
 	"bufio"
 	"os"
 )
-
+/* FIXME -- PM's broken
 //SelectPrivateMenu is a menu item that changes to a private channel
 func SelectPrivateMenu() {
 
@@ -78,8 +78,9 @@ Start:
 	State.Channel = UserChannels[ResponseInteger]
 	ShowContent()
 End:
-}
+}*/
 
+/* FIXME -- PM's broken
 //SelectDeletePrivateMenu deletes a user channel
 func SelectDeletePrivateMenu() {
 
@@ -117,7 +118,7 @@ Start:
 
 	Session.DiscordGo.ChannelDelete(UserChannels[ResponseInteger].ID)
 
-}
+} */
 
 //SelectGuildMenu is a menu item that creates a new State on basis of Guild selection
 func SelectGuildMenu() {
@@ -183,7 +184,8 @@ Start:
 	SelectID := 0
 
 	for _, channel := range State.Channels {
-		if channel.Type == "text" {
+		// 0 is ChannelTypeGuildText ChannelType = iota
+		if channel.Type == 0 {
 			SelectMap[SelectID] = channel.ID
 			Msg(TextMsg, "[%d] %s\n", SelectID, channel.Name)
 			SelectID++
@@ -278,9 +280,10 @@ func ExtraPrivateMenuOptions() {
 
 //AddUserChannelMenu takes a user from the current guild and adds them to a private message. WILL RETURN ERROR IF IN USER CHANNEL.
 func AddUserChannelMenu() {
+	/* FIXME -- PM's broken
 	if State.Channel.IsPrivate {
 		Msg(ErrorMsg, "Currently in a user channel, move to a guild with :g\n")
-	} else {
+	} else {*/
 		SelectMap := make(map[int]string)
 	Start:
 		SelectID := 0
@@ -314,7 +317,7 @@ func AddUserChannelMenu() {
 			Session.DiscordGo.ChannelMessageSend(Chan.ID, "Test")
 		}
 		State.Channel = Chan
-	}
+	/*}*/
 }
 
 //LeaveServerMenu is a copy of SelectGuildMenu that leaves instead of selects

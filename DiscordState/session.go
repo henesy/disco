@@ -4,7 +4,7 @@ package DiscordState
 import (
 	"fmt"
 
-	"bitbucket.org/henesy/disco/DiscordGo"
+	"github.com/bwmarrin/discordgo"
 )
 
 //!----- Session -----!//
@@ -32,12 +32,13 @@ func (Session *Session) Start() error {
 	dg.Open()
 
 	//Retrieve GuildID's from current User
-	UserGuilds, err := dg.UserGuilds()
+	//need index of Guilds[] rather than UserGuilds[] (maybe)
+	Guilds, err := dg.UserGuilds(0, "", "")
 	if err != nil {
 		return err
 	}
 
-	Session.Guilds = UserGuilds
+	Session.Guilds = Guilds
 
 	Session.DiscordGo = dg
 
@@ -116,7 +117,7 @@ func (Session *Session) NewState(GuildID string, MessageAmount int) (*State, err
 
 //Update updates the session, this reloads the Guild list
 func (Session *Session) Update() error {
-	UserGuilds, err := Session.DiscordGo.UserGuilds()
+	UserGuilds, err := Session.DiscordGo.UserGuilds(0, "", "")
 	if err != nil {
 		return err
 	}

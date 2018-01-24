@@ -76,14 +76,16 @@ func SelectChannel() {
 //SelectPrivate a private channel
 func SelectPrivate() {
 	State.Enabled = false
-	SelectPrivateMenu()
+	/* FIXME -- PM's broken
+	SelectPrivateMenu()*/
 	State.Enabled = true
 }
 
 //SelectDeletePrivate a private channel
 func SelectDeletePrivate() {
 	State.Enabled = false
-	SelectDeletePrivateMenu()
+	/* FIXME -- PM's broken
+	SelectDeletePrivateMenu()*/
 	State.Enabled = true
 	if State.Channel != nil {
 		ShowContent()

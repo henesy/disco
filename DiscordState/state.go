@@ -1,6 +1,6 @@
 package DiscordState
 
-import "bitbucket.org/henesy/disco/DiscordGo"
+import "github.com/bwmarrin/discordgo"
 
 //SetChannel sets the channel of the current State
 func (State *State) SetChannel(ID string) {
@@ -56,7 +56,7 @@ func (State *State) DelMessage(Message *discordgo.Message) {
 
 //RetrieveMessages retrieves last N Messages and puts it in state
 func (State *State) RetrieveMessages(Amount int) error {
-	Messages, err := State.Session.DiscordGo.ChannelMessages(State.Channel.ID, Amount, "", "")
+	Messages, err := State.Session.DiscordGo.ChannelMessages(State.Channel.ID, Amount, "", "", "")
 	if err != nil {
 		return err
 	}

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 	"fmt"
-	"bitbucket.org/henesy/disco/DiscordGo"
+	"github.com/bwmarrin/discordgo"
 	"bufio"
 )
 
@@ -26,11 +26,13 @@ func Msg(MsgType, format string, a ...interface{}) {
 //Header simply prints a header containing state/session information
 func Header() {
 	Msg(InfoMsg, "Welcome, %s!\n\n", State.Session.User.Username)
+	/* FIXME -- PM's won't work
 	if State.Channel.IsPrivate {
 		Msg(InfoMsg, "Channel: %s\n", State.Channel.Recipient.Username)
 	} else {
+	*/
 		Msg(InfoMsg, "Guild: %s, Channel: %s\n", State.Guild.Name, State.Channel.Name)
-	}
+	/*}*/
 }
 
 //ReceivingMessageParser parses receiving message for mentions, images and MultiLine and returns string array
@@ -56,7 +58,7 @@ func PrintMessages(Amount int) {
 
 			for _, Msg := range Messages {
 				//log.Printf("> %s > %s\n", UserName(m.Author.Username), Msg)
-				MessagePrint(m.Timestamp, m.Author.Username, Msg)
+				MessagePrint(string(m.Timestamp), m.Author.Username, Msg)
 
 			}
 		}
