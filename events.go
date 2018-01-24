@@ -3,14 +3,14 @@ package main
 import (
 	"strings"
 
-	"bitbucket.org/henesy/disco/DiscordGo"
+	"github.com/bwmarrin/discordgo"
 )
 
-func removeReaction(s *discordgo.Session, r *discordgo.ReactionRemove) {
+func removeReaction(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
 
 }
 
-func newReaction(s *discordgo.Session, m *discordgo.ReactionAdd) {
+func newReaction(s *discordgo.Session, m *discordgo.MessageReactionAdd) {
 }
 
 // This function will be called (due to AddHandler above) every time a new
@@ -34,7 +34,7 @@ func newMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 		Messages := ReceivingMessageParser(m.Message)
 
 		for _, Msg := range Messages {
-			MessagePrint(m.Timestamp, m.Author.Username, Msg)
+			MessagePrint(string(m.Timestamp), m.Author.Username, Msg)
 			//log.Printf("> %s > %s\n", UserName(m.Author.Username), Msg)
 		}
 	}
