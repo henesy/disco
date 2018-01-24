@@ -25,3 +25,5 @@ Features:
 * replace libnotify shenanigans, add a goroutine to check for pings
 
 * flag for larger backlog loading
+
+* CAPTCHA solution

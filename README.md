@@ -6,13 +6,11 @@ JSON config is in `$home/lib/disco.cfg` for setting password, should be made aut
 
 ## Install
 
-`mk deps`
+`mk deps` (or `go get` the deps manually)
 
 `mk install`
 
 ## Problems
-
-* You might have to run `mk` or `mk install` twice
 
 * JSON
 
@@ -20,9 +18,9 @@ JSON config is in `$home/lib/disco.cfg` for setting password, should be made aut
 
 * Does not support 2FA (Discord API explicitly does not allow this)
 
-* ~~:g switching guilds crashes the client~~ Add private channel switch later
+* No way to fix an HTTP 400 Needs Captcha error if one is thrown
 
-* You have to verify your e-mail regularly (i guess?)
+* ~~:g switching guilds crashes the client~~ Add private channel switch later
 
 ## Commands
 Commands available in chat:
