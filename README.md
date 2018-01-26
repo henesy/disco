@@ -25,10 +25,6 @@ go get bitbucket.org/henesy/disco
 
 * Does not support 2FA (Discord API explicitly does not allow this)
 
-* ~~:g switching guilds crashes the client~~ Add private channel switch later
-
-* You have to verify your e-mail regularly (i guess?)
-
 ## Commands
 Commands available in chat:
 
