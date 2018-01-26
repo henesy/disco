@@ -6,15 +6,20 @@ JSON config is in `$home/lib/disco.cfg` for setting password, should be made aut
 
 ## Install
 
-`mk deps`
-
-`mk install`
+```
+go get github.com/bwmarrin/discordgo
+go get github.com/gorilla/websocket
+go get golang.org/x/crypto
+go get bitbucket.org/henesy/disco
+```
 
 ## Problems
 
 * You might have to run `mk` or `mk install` twice
 
 * JSON
+
+* PM's are temporarily disabled
 
 * Does not create accounts for you, this still needs to be done in a browser/app
 
@@ -38,3 +43,4 @@ Commands available in chat:
 ## Notes
 
 If you can connect to a channel and see messages, but yours aren't sending, check to make sure your e-mail address is verified.
+
