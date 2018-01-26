@@ -55,7 +55,7 @@ func main() {
 
 	//defer rl.Close()
 	log.SetOutput(os.Stderr) // let "log" write to l.Stderr instead of os.Stderr
-	State.Session.DiscordGo.UpdateStatus(0, "discord-cli")
+	State.Session.DiscordGo.UpdateStatus(0, "Plan 9")
 
 	//Start Listening
 	reader := bufio.NewReader(os.Stdin)
