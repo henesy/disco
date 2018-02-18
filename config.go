@@ -95,10 +95,12 @@ func CreateConfig() {
 	EmptyStruct.MessageDefault = true
 
 	//Create File
+	os.Mkdir(usr.HomeDir + "/lib", 0775)
 	file, err := os.Create(usr.HomeDir + "/lib/disco.cfg")
 	if err != nil {
 		log.Fatalln(err)
 	}
+	file.Chmod(0600)
 
 	//Marshall EmptyStruct
 	raw, err := json.Marshal(EmptyStruct)
