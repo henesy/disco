@@ -1,6 +1,6 @@
-# disco: [Discord](https://discord.gg) client for 9Front
+# disco: [Discord](https://discord.gg) client for 9front
 
-Hacked up version of theboxmage's [discord-cli](https://github.com/theboxmage/discordcli)
+Fork of theboxmage's [discord-cli](https://github.com/theboxmage/discordcli)
 
 JSON config is in `$home/lib/disco.cfg` for setting password, should be made automatically after first run.
 
@@ -14,8 +14,6 @@ go get bitbucket.org/henesy/disco
 ```
 
 ## Problems
-
-* You might have to run `mk` or `mk install` twice
 
 * JSON
 
@@ -39,4 +37,18 @@ Commands available in chat:
 ## Notes
 
 If you can connect to a channel and see messages, but yours aren't sending, check to make sure your e-mail address is verified.
+
+## FAQ
+
+Q: What if `go get` doesn't work?
+
+A: If you want to use `go get` on 9front to install disco and its dependencies (recommended) you should use [driusan's dgit](https://github.com/driusan/dgit) as `git`.
+
+Q: What if I can't login because of a captcha error?
+
+A: You'll need to sign in to Discord via the web app (thus solving a captcha) using a browser with html5/js. I recommend an http proxy such as [this](https://bitbucket.org/henesy/http-proxy).
+
+Q: What if I get an error about signing in from a new location?
+
+A: Discord has sent you an e-mail with a location confirmation link, click it, no js should be required.
 

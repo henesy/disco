@@ -7,25 +7,12 @@ all:
 install: all
 	cp ./disco $home/bin/$GOARCH/disco
 
-deps: 
-	mkdir -p $GOPATH/src/bitbucket.org/henesy/disco
-	dircp ./ $GOPATH/src/bitbucket.org/henesy/disco
-
-crypto:
-	orig=`{pwd}
-	mkdir -p $GOPATH/src/golang.org/x/crypto
-	cd $GOPATH/src/golang.org/x
-	hget https://github.com/golang/crypto/archive/master.zip > crypto.zip; unzip -f crypto.zip
-	dircp crypto-master crypto; rm -r crypto-master
-	cd $orig
-
-rebuild: 
-	go install bitbucket.org/henesy/disco
-	mk install
-
 bins: 
 	arch=(amd64 386 arm)
+	mkdir bin
 	for(a in $arch){
+		mkdir bin/$a
 		GOARCH=$a go build
 		cp disco bin/^$a^/
+		rm disco
 	}

@@ -244,6 +244,7 @@ Start:
 		reader := bufio.NewReader(os.Stdin)
 		response, _ := reader.ReadString('\n')
 		response = response[:len(response)-1]
+		fmt.Println(response, " ", len(response))
 		
 		//fmt.Scanf("%s\n", &response)
 		if response == "y" {
