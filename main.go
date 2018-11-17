@@ -3,6 +3,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"regexp"
 	"bitbucket.org/henesy/disco/DiscordState"
@@ -33,7 +34,15 @@ var State *DiscordState.State
 //MsgType is a string containing global message type
 type MsgType string
 
+var timeStamp = flag.Bool("t", true, "Hide timestamps in channel log")
+
 func main() {
+
+	flag.Parse()
+	if flag.Lookup("h") != nil {
+		flag.Usage()
+		os.Exit(1)
+	}
 	//Initialize Config
 	GetConfig()
 	CheckState()

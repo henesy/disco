@@ -87,11 +87,14 @@ func Notify(m *discordgo.Message) {
 //MessagePrint prints one correctly formatted Message to stdout
 func MessagePrint(Time, Username, Content string) {
 	//var Color color.Attribute
-	TimeStamp, _ := time.Parse(time.RFC3339, Time)
-	LocalTime := TimeStamp.Local().Format("2006/01/02 15:04:05")
-
 	log.SetFlags(0)
-	log.Printf("%s > %s > %s\n", LocalTime, Username, Content)
+	if *timeStamp {
+		TimeStamp, _ := time.Parse(time.RFC3339, Time)
+		LocalTime := TimeStamp.Local().Format("2006/01/02 15:04:05")
+		log.Printf("%s > %s > %s\n", LocalTime, Username, Content)
+	} else {
+		log.Printf("%s > %s\n", Username, Content)
+	}
 	log.SetFlags(log.LstdFlags)
 }
 
