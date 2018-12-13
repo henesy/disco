@@ -2,11 +2,11 @@ Commands:
 
 :r -- register via Register(email)
 
-:u [done] -- change username via UserUpdate
-
 :d [n] [file] -- dump backlog of last 'n' msgs to a file 'file'
 
 :c [n] and :c ? to switch and list channels, respectively
+
+:? to list commands
 
 Features:
 
@@ -20,17 +20,11 @@ Features:
 
 * if ``` entered, allow multi-line message (composition)
 
-* [done] replace <:emoji:3lk4j12:> garbage with :emoji:
-
-* [done] fix @'s
-
 * flag for larger backlog loading
 
 * CAPTCHA solution -- http-proxy is a bad one
 
-* [done] change > to → or whtever desired
-
-* [done] fix pm's
+* [done-ish] fix pm's
 
 * aux/statusmsg backgrounds and doesn't steal input
 
