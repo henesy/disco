@@ -34,7 +34,9 @@ var State *DiscordState.State
 //MsgType is a string containing global message type
 type MsgType string
 
-var timeStamp = flag.Bool("t", true, "Hide timestamps in channel log")
+var hideTimeStamp = flag.Bool("t", false, "Hide timestamps in channel log")
+var enableNotify = flag.Bool("n", false, "Enable notifications")
+var notifyFlag = flag.String("w", "10,10,260,90", "Dimensions to pass through to statusmsg")
 
 func main() {
 
@@ -42,6 +44,9 @@ func main() {
 	if flag.Lookup("h") != nil {
 		flag.Usage()
 		os.Exit(1)
+	}
+	if flag.Lookup("w") != nil {
+		*notifyFlag = fmt.Sprintf("-w %s", *notifyFlag)
 	}
 	//Initialize Config
 	GetConfig()
