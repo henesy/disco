@@ -7,8 +7,7 @@ import (
 	"log"
 	"os"
 	"os/user"
-
-//	"golang.org/x/crypto/ssh/terminal"
+	//	"golang.org/x/crypto/ssh/terminal"
 )
 
 //Configuration is a struct that contains all configuration fields
@@ -17,6 +16,8 @@ type Configuration struct {
 	Password       string `json:"password"`
 	MessageDefault bool   `json:"messagedefault"`
 	Messages       int    `json:"messages"`
+	CompletionChar string `json:"completionchar"`
+	TimeCompChar   string `json:"timecompchar"`
 }
 
 // Config is the global configuration of discord-cli
@@ -24,7 +25,7 @@ var Config Configuration
 
 //GetConfig retrieves configuration file from $home/lib/disco.cfg, if it doesn't exist it calls CreateConfig()
 func GetConfig() {
-//Get User
+	//Get User
 Start:
 	usr, err := user.Current()
 	if err != nil {
@@ -65,7 +66,7 @@ func CreateConfig() {
 	EmptyStruct.Username = scan.Text()
 	fmt.Print("Input your password: ")
 	//password, err := terminal.ReadPassword(0)
-	
+
 	plan9 := true
 	/* Plan 9 raw mode for rio */
 	consctl, err := Rawon()
@@ -73,13 +74,13 @@ func CreateConfig() {
 		fmt.Println("Failed to set rawon")
 		plan9 = false
 	}
-	
-	password := "";
-	
+
+	password := ""
+
 	if plan9 {
-		
+
 		password = GetCons()
-	
+
 		err = RawOff(consctl)
 		if err != nil {
 			fmt.Println("\nFailed to set rawoff")
@@ -89,13 +90,15 @@ func CreateConfig() {
 		/* Maybe put linux terminal raw mode in here one day */
 		fmt.Println("Skipping raw input for Plan 9")
 	}
-	
+
 	EmptyStruct.Password = string(password)
 	EmptyStruct.Messages = 10
 	EmptyStruct.MessageDefault = true
+	EmptyStruct.CompletionChar = ">"
+	EmptyStruct.TimeCompChar = ">"
 
 	//Create File
-	os.Mkdir(usr.HomeDir + "/lib", 0775)
+	os.Mkdir(usr.HomeDir+"/lib", 0775)
 	file, err := os.Create(usr.HomeDir + "/lib/disco.cfg")
 	if err != nil {
 		log.Fatalln(err)

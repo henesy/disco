@@ -2,7 +2,7 @@ Commands:
 
 :r -- register via Register(email)
 
-:u -- change username via UserUpdate
+:u [done] -- change username via UserUpdate
 
 :d [n] [file] -- dump backlog of last 'n' msgs to a file 'file'
 
@@ -20,17 +20,17 @@ Features:
 
 * if ``` entered, allow multi-line message (composition)
 
-* replace <:emoji:3lk4j12:> garbage with :emoji:
+* [done] replace <:emoji:3lk4j12:> garbage with :emoji:
 
-* fix @'s
+* [done] fix @'s
 
 * flag for larger backlog loading
 
 * CAPTCHA solution -- http-proxy is a bad one
 
-* change > to → or whtever desired
+* [done] change > to → or whtever desired
 
-* fix pm's
+* [done] fix pm's
 
 * aux/statusmsg backgrounds and doesn't steal input
 

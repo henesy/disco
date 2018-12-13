@@ -1,20 +1,20 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
-	"strconv"
-	"bufio"
 	"os"
+	"strconv"
 )
-/* FIXME -- PM's broken
+
 //SelectPrivateMenu is a menu item that changes to a private channel
 func SelectPrivateMenu() {
 
 Start:
 
 	Msg(InfoMsg, "Select a Member:\n")
-
+	// List of PMs
 	UserChannels, err := Session.DiscordGo.UserChannels()
 
 	if err != nil {
@@ -26,7 +26,18 @@ Start:
 
 	for _, user := range UserChannels {
 		UserMap[SelectID] = user.ID
-		Msg(TextMsg, "[%d] %s\n", SelectID, UserChannels[SelectID].Recipient.Username)
+		// We have to loop through all recipients
+		recipients := UserChannels[SelectID].Recipients
+		for _, recipient := range recipients {
+			if recipient.ID == user.ID {
+				continue
+			}
+			if recipient.Username == "" {
+				continue
+			}
+			Msg(TextMsg, "[%d] %s\n", SelectID, recipient.Username)
+			break
+		}
 		SelectID++
 	}
 	Msg(TextMsg, "[b] Extra Options\n")
@@ -78,9 +89,8 @@ Start:
 	State.Channel = UserChannels[ResponseInteger]
 	ShowContent()
 End:
-}*/
+}
 
-/* FIXME -- PM's broken
 //SelectDeletePrivateMenu deletes a user channel
 func SelectDeletePrivateMenu() {
 
@@ -99,7 +109,18 @@ Start:
 
 	for _, user := range UserChannels {
 		UserMap[SelectID] = user.ID
-		Msg(TextMsg, "[%d] %s\n", SelectID, UserChannels[SelectID].Recipient.Username)
+		// We have to loop through all recipients
+		recipients := UserChannels[SelectID].Recipients
+		for _, recipient := range recipients {
+			if recipient.ID == user.ID {
+				continue
+			}
+			if recipient.Username == "" {
+				continue
+			}
+			Msg(TextMsg, "[%d] %s\n", SelectID, recipient.Username)
+			break
+		}
 		SelectID++
 	}
 	var response string
@@ -118,7 +139,7 @@ Start:
 
 	Session.DiscordGo.ChannelDelete(UserChannels[ResponseInteger].ID)
 
-} */
+}
 
 //SelectGuildMenu is a menu item that creates a new State on basis of Guild selection
 func SelectGuildMenu() {
@@ -245,7 +266,7 @@ Start:
 		response, _ := reader.ReadString('\n')
 		response = response[:len(response)-1]
 		fmt.Println(response, " ", len(response))
-		
+
 		//fmt.Scanf("%s\n", &response)
 		if response == "y" {
 			Session.DiscordGo.InviteAccept(Invite.Code)
@@ -281,44 +302,44 @@ func ExtraPrivateMenuOptions() {
 
 //AddUserChannelMenu takes a user from the current guild and adds them to a private message. WILL RETURN ERROR IF IN USER CHANNEL.
 func AddUserChannelMenu() {
-	/* FIXME -- PM's broken
-	if State.Channel.IsPrivate {
+
+	if State.Channel.GuildID == "" {
 		Msg(ErrorMsg, "Currently in a user channel, move to a guild with :g\n")
-	} else {*/
-		SelectMap := make(map[int]string)
-	Start:
-		SelectID := 0
-		for _, Member := range State.Members {
-			SelectMap[SelectID] = Member.User.ID
-			Msg(TextMsg, "[%d] %s\n", SelectID, Member.User.Username)
-			SelectID++
-		}
-		var response string
-		fmt.Scanf("%s\n", &response)
+	} else {
+	SelectMap := make(map[int]string)
+Start:
+	SelectID := 0
+	for _, Member := range State.Members {
+		SelectMap[SelectID] = Member.User.ID
+		Msg(TextMsg, "[%d] %s\n", SelectID, Member.User.Username)
+		SelectID++
+	}
+	var response string
+	fmt.Scanf("%s\n", &response)
 
-		if response == "b" {
-			return
-		}
+	if response == "b" {
+		return
+	}
 
-		ResponseInteger, err := strconv.Atoi(response)
-		if err != nil {
-			Msg(ErrorMsg, "(CH) Conversion Error: %s\n", err)
-			goto Start
-		}
+	ResponseInteger, err := strconv.Atoi(response)
+	if err != nil {
+		Msg(ErrorMsg, "(CH) Conversion Error: %s\n", err)
+		goto Start
+	}
 
-		if ResponseInteger > SelectID-1 || ResponseInteger < 0 {
-			Msg(ErrorMsg, "(CH) Error: ID is out of bound\n")
-			goto Start
-		}
-		Chan, err := Session.DiscordGo.UserChannelCreate(SelectMap[ResponseInteger])
+	if ResponseInteger > SelectID-1 || ResponseInteger < 0 {
+		Msg(ErrorMsg, "(CH) Error: ID is out of bound\n")
+		goto Start
+	}
+	Chan, err := Session.DiscordGo.UserChannelCreate(SelectMap[ResponseInteger])
 
-		if Chan.LastMessageID == "" {
-			var firstMessage string
-			fmt.Scanf("%s\n", &firstMessage)
-			Session.DiscordGo.ChannelMessageSend(Chan.ID, "Test")
-		}
-		State.Channel = Chan
-	/*}*/
+	if Chan.LastMessageID == "" {
+		var firstMessage string
+		fmt.Scanf("%s\n", &firstMessage)
+		Session.DiscordGo.ChannelMessageSend(Chan.ID, "Test")
+	}
+	State.Channel = Chan
+	}
 }
 
 //LeaveServerMenu is a copy of SelectGuildMenu that leaves instead of selects
