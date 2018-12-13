@@ -6,6 +6,8 @@ Commands:
 
 :d [n] [file] -- dump backlog of last 'n' msgs to a file 'file'
 
+:c [n] and :c ? to switch and list channels, respectively
+
 Features:
 
 * remove JSON config
@@ -14,16 +16,20 @@ Features:
 
 * delete disco.cfg on failure to log in for 400 bad request: password does not match
 
-* ensure proper permissions -rw------- 0600 for discord.cfg
+* verify proper permissions -rw------- 0600 for discord.cfg
 
 * if ``` entered, allow multi-line message (composition)
 
 * replace <:emoji:3lk4j12:> garbage with :emoji:
 
-* clean up @'s
-
-* replace libnotify shenanigans, add a goroutine to check for pings
+* fix @'s
 
 * flag for larger backlog loading
 
-* CAPTCHA solution
+* CAPTCHA solution -- http-proxy is a bad one
+
+* change > to → or whtever desired
+
+* fix pm's
+
+* aux/statusmsg backgrounds and doesn't steal input

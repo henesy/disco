@@ -1,9 +1,11 @@
 package main
 
 import (
+	"io"
 	"log"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 	"time"
 	"fmt"
@@ -67,6 +69,9 @@ func PrintMessages(Amount int) {
 
 //Notify uses Notify-Send from libnotify to send a notification when a mention arrives.
 func Notify(m *discordgo.Message) {
+	if *enableNotify == false {
+		return
+	}
 	Channel, err := State.Session.DiscordGo.Channel(m.ChannelID)
 	if err != nil {
 		Msg(ErrorMsg, "(NOT) Channel Error: %s\n", err)
@@ -76,11 +81,29 @@ func Notify(m *discordgo.Message) {
 		Msg(ErrorMsg, "(NOT) Guild Error: %s\n", err)
 	}
 	Title := "@" + m.Author.Username + " : " + Guild.Name + "/" + Channel.Name
-	cmd := exec.Command("notify-send", Title, m.ContentWithMentionsReplaced())
-	err = cmd.Start()
-	if err != nil {
-		Msg(ErrorMsg, "(NOT) Check if libnotify is installed, or disable notifications.\n")
+	switch runtime.GOOS {
+	case "plan9":
+		pr, pw := io.Pipe()
+		cmd := exec.Command("/bin/aux/statusmsg", "-k", *notifyFlag, Title)
+		cmd.Stdin = pr
+		go func() {
+			defer pw.Close()
+			fmt.Fprintf(pw, "%s\n", m.ContentWithMentionsReplaced())
+			cmd.Wait()
+		}()
+		err = cmd.Start()
+		if err != nil {
+			Msg(ErrorMsg, "%s\n", err)
+		}
+		
+	default:
+		cmd := exec.Command("notify-send", Title, m.ContentWithMentionsReplaced())
+		err = cmd.Start()
+		if err != nil {
+			Msg(ErrorMsg, "(NOT) Check if libnotify is installed, or disable notifications.\n")
+		}
 	}
+
 
 }
 
@@ -88,12 +111,13 @@ func Notify(m *discordgo.Message) {
 func MessagePrint(Time, Username, Content string) {
 	//var Color color.Attribute
 	log.SetFlags(0)
-	if *timeStamp {
+	if *hideTimeStamp {
+		log.Printf("%s > %s\n", Username, Content)
+	} else {
 		TimeStamp, _ := time.Parse(time.RFC3339, Time)
 		LocalTime := TimeStamp.Local().Format("2006/01/02 15:04:05")
 		log.Printf("%s > %s > %s\n", LocalTime, Username, Content)
-	} else {
-		log.Printf("%s > %s\n", Username, Content)
+
 	}
 	log.SetFlags(log.LstdFlags)
 }
