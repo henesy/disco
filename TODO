@@ -33,3 +33,5 @@ Features:
 * fix pm's
 
 * aux/statusmsg backgrounds and doesn't steal input
+
+* fix :m not displaying more than loaded backlog
