@@ -3,13 +3,14 @@
 package main
 
 import (
-	"flag"
-	"log"
-	"regexp"
 	"bitbucket.org/henesy/disco/DiscordState"
-	"fmt"
 	"bufio"
+	"flag"
+	"fmt"
+	"log"
 	"os"
+	"regexp"
+	"strings"
 )
 
 //Global Message Types
@@ -88,9 +89,9 @@ func main() {
 		line = ParseForCommands(line)
 
 		line = ParseForMentions(line)
-		
+
 		if line != "" {
-			_ ,err := State.Session.DiscordGo.ChannelMessageSend(State.Channel.ID, line)
+			_, err := State.Session.DiscordGo.ChannelMessageSend(State.Channel.ID, line)
 			if err != nil {
 				fmt.Print("Error: ", err, "\n")
 			}
@@ -110,7 +111,7 @@ func InitWindow() {
 	ShowContent()
 }
 
-//ShowContent shows defaulth Channel content
+//ShowContent shows default Channel content
 func ShowContent() {
 	Header()
 	if Config.MessageDefault {
@@ -122,31 +123,54 @@ func ShowContent() {
 //ShowEmptyContent shows an empty channel
 func ShowEmptyContent() {
 	Header()
+
 }
 
 //ParseForMentions parses input string for mentions
 func ParseForMentions(line string) string {
-	r, err := regexp.Compile("\\@\\w+")
+	r, err := regexp.Compile("@\\w+")
 	if err != nil {
 		Msg(ErrorMsg, "Regex Error: ", err)
 	}
 
-	lineByte := r.ReplaceAllFunc([]byte(line), ReplaceMentions)
+	lineByte := r.ReplaceAllStringFunc(line, ReplaceMentions)
 
-	return string(lineByte[:])
+	return lineByte
 }
 
-//ReplaceMentions replaces mentions to ID
-func ReplaceMentions(input []byte) []byte {
-	var OutputString string
-
-	SizeByte := len(input)
-	InputString := string(input[1:SizeByte])
-
-	if Member, ok := State.Members[InputString]; ok {
-		OutputString = "<@" + Member.User.ID + ">"
-	} else {
-		OutputString = "@" + InputString
+//ReplaceMentions replaces mentions to ID 
+func ReplaceMentions(input string) string {
+	// Check for guild members that match
+	channel := State.Guild.Members
+	for _, member := range channel {
+		if member.Nick == input[1:] {
+			return member.User.Mention()
+		}
+		if strings.HasPrefix(member.User.Username, input[1:]) {
+			return member.User.Mention()
+		}
 	}
-	return []byte(OutputString)
+	// Walk all PM channels
+	userChannels, err := Session.DiscordGo.UserChannels()
+	if err != nil {
+		return input
+	}
+	for _, channel := range userChannels {
+		for _, recipient := range channel.Recipients {
+			if strings.HasPrefix(input[1:], recipient.Username) {
+				fmt.Println("usermatch")
+				return recipient.Mention()
+			}
+		}
+	}
+	return input
+}
+
+//Parse for guild-specific emoji
+func ParseForEmoji(line string) string {
+	r, err := regexp.Compile("<(:\\w+:)[0-9]+>")
+	if err != nil {
+		Msg(ErrorMsg, "Regex Error: ", err)
+	}
+	return r.ReplaceAllString(line, "$1")
 }

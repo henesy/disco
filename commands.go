@@ -41,7 +41,17 @@ func ParseForCommands(line string) string {
 		PrintMessages(Amount)
 		line = ""
 	}
-
+	if strings.HasPrefix(line, ":u") {
+		session := State.Session
+		user := session.User
+		newName := strings.TrimPrefix(line, ":u ")
+		_, err := State.Session.DiscordGo.UserUpdate(user.Email, session.Password, newName, user.Avatar, "")
+		if err != nil {
+			Msg(ErrorMsg, "[:u] Argument Error: %s\n", err)
+		}
+		line = ""
+	}
+		
 	return line
 }
 
@@ -49,10 +59,8 @@ func ParseForCommands(line string) string {
 func SelectGuild() {
 	State.Enabled = false
 	SelectGuildMenu()
-	/* this causes a segfault, investigate later */
-	//if !State.Channel.IsPrivate {
+	// Segfaults would happen here
 	SelectChannelMenu()
-	//}
 	State.Enabled = true
 	ShowContent()
 }
@@ -76,18 +84,15 @@ func SelectChannel() {
 //SelectPrivate a private channel
 func SelectPrivate() {
 	State.Enabled = false
-	/* FIXME -- PM's broken
-	SelectPrivateMenu()*/
+	SelectPrivateMenu()
 	State.Enabled = true
+	ShowContent()
 }
 
 //SelectDeletePrivate a private channel
 func SelectDeletePrivate() {
 	State.Enabled = false
-	/* FIXME -- PM's broken
-	SelectDeletePrivateMenu()*/
+	SelectDeletePrivateMenu()
 	State.Enabled = true
-	if State.Channel != nil {
-		ShowContent()
-	}
+	ShowContent()
 }
