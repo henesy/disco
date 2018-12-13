@@ -35,3 +35,5 @@ Features:
 * aux/statusmsg backgrounds and doesn't steal input
 
 * fix :m not displaying more than loaded backlog
+
+* fix ctrl+d not closing out cleanly
