@@ -78,6 +78,23 @@ func main() {
 		//fmt.Print("> ")
 		//line, _ := rl.Readline()
 		line, _ := reader.ReadString('\n')
+
+		// ```
+		if strings.HasPrefix(line, "```") {
+			for {
+				subline, _ := reader.ReadString('\n')
+				line += subline
+				if strings.Index(subline,  "```") != -1 {
+					break
+				}
+			}
+			_, err := State.Session.DiscordGo.ChannelMessageSend(State.Channel.ID, line)
+			if err != nil {
+				fmt.Printf("Error: %s\n", err)
+			}
+			continue
+		}
+
 		line = line[:len(line)-1]
 
 		//QUIT
@@ -141,9 +158,8 @@ func ParseForMentions(line string) string {
 //ReplaceMentions replaces mentions to ID 
 func ReplaceMentions(input string) string {
 	// Check for guild members that match
-	channel := State.Guild.Members
-	for _, member := range channel {
-		if member.Nick == input[1:] {
+	for _, member := range State.Guild.Members {
+		if strings.HasPrefix(member.Nick, input[1:]) {
 			return member.User.Mention()
 		}
 		if strings.HasPrefix(member.User.Username, input[1:]) {
@@ -158,7 +174,6 @@ func ReplaceMentions(input string) string {
 	for _, channel := range userChannels {
 		for _, recipient := range channel.Recipients {
 			if strings.HasPrefix(input[1:], recipient.Username) {
-				fmt.Println("usermatch")
 				return recipient.Mention()
 			}
 		}

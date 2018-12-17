@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -60,11 +61,16 @@ func ReceivingMessageParser(m *discordgo.Message) []string {
 //PrintMessages prints amount of Messages to CLI
 func PrintMessages(Amount int) {
 	for Key, m := range State.Messages {
+		name := m.Author.Username
+		if member, ok := State.Members[m.Author.Username]; ok {
+			if member.Nick != "" {
+				name = member.Nick
+			}
+		}
 		if Key >= len(State.Messages)-Amount {
 			Messages := ReceivingMessageParser(m)
 			for _, Msg := range Messages {
-				//log.Printf("> %s > %s\n", UserName(m.Author.Username), Msg)
-				MessagePrint(string(m.Timestamp), m.Author.Username, Msg)
+				MessagePrint(string(m.Timestamp), name, Msg)
 
 			}
 		}
@@ -77,7 +83,11 @@ func Notify(m *discordgo.Message) {
 		return
 	}
 	var Title string
-	switch State.Channel.Type {
+	channel, err := State.Session.DiscordGo.Channel(m.ChannelID)
+	if err != nil {
+		Msg(ErrorMsg, "(NOT) PM Error: %s\n", err)
+	}
+	switch channel.Type {
 	case discordgo.ChannelTypeGuildText:
 		Channel, err := State.Session.DiscordGo.Channel(m.ChannelID)
 		if err != nil {
@@ -94,7 +104,7 @@ func Notify(m *discordgo.Message) {
 	switch runtime.GOOS {
 	case "plan9":
 		pr, pw := io.Pipe()
-		cmd := exec.Command("/bin/aux/statusmsg", "-k", *notifyFlag, Title)
+		cmd := exec.Command("/bin/aux/statusmsg", *notifyFlag, Title)
 		cmd.Stdin = pr
 		go func() {
 			defer pw.Close()
@@ -105,7 +115,7 @@ func Notify(m *discordgo.Message) {
 		if err != nil {
 			Msg(ErrorMsg, "%s\n", err)
 		}
-
+		ioutil.WriteFile("/dev/wctl", []byte("current"), 0644)
 	default:
 		cmd := exec.Command("notify-send", Title, m.ContentWithMentionsReplaced())
 		err := cmd.Start()

@@ -87,7 +87,6 @@ Start:
 	}
 
 	State.Channel = UserChannels[ResponseInteger]
-	ShowContent()
 End:
 }
 
