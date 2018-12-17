@@ -3,27 +3,68 @@ package main
 import (
 	"strconv"
 	"strings"
+	"github.com/bwmarrin/discordgo"
 )
 
 //ParseForCommands parses input for Commands, returns message if no command specified, else return is empty
 func ParseForCommands(line string) string {
-	//One Key Commands
-	switch line {
+	if len(line) < 2 {
+		return line
+	}
+	switch line[:2] {
+	case ":?":
+		// Show help menu
+		Msg(TextMsg, "Commands: ")
+		Msg(TextMsg, "[:g] - Select guild")
+		Msg(TextMsg, "[:p] - Select private message")
+		Msg(TextMsg, "[:c] - Select guild channel")
+		Msg(TextMsg, "[:c ?] - List guild channels")
+		Msg(TextMsg, "[:c <num>] - Go directly to channel")
+		Msg(TextMsg, "[:m <num>] - Display last <num> messages")
+		Msg(TextMsg, "[:u <name>] - Change username")
 	case ":g":
 		SelectGuild()
-		line = ""
-	case ":c":
-		SelectChannel()
-		line = ""
+		return ""
 	case ":p":
 		SelectPrivate()
-		line = ""
-	default:
-		// Nothing
-	}
-
-	//Argument Commands
-	if strings.HasPrefix(line, ":m") {
+		return ""
+	case ":c":
+		opts := strings.Split(line, " ")
+		if len(opts) == 1 {
+			SelectChannel()
+			return ""
+		}
+		selectID := 0
+		if opts[1] == "?" {
+			for _, channel := range State.Channels {
+				if channel.Type == 0 {
+					Msg(TextMsg, "[%d] %s\n", selectID, channel.Name)
+					selectID++
+				}
+			}
+			return ""
+		}
+		selectMap := make(map[int]*discordgo.Channel)
+		for _, channel := range State.Channels {
+			if channel.Type == 0 {
+				selectMap[selectID] = channel
+				selectID++
+			}
+		}
+		selection, err := strconv.Atoi(opts[1])
+		if err != nil {
+			Msg(ErrorMsg, "[:c] Argument Error: %s\n", err)
+			return ""
+		}
+		if len(State.Channels) < selection || selection < 0 {
+			Msg(ErrorMsg, "[:c] Argument Error: Out of bounds\n")
+			return ""
+		}
+		channel := selectMap[selection]
+		State.SetChannel(channel.ID)
+		ShowContent()
+		return ""
+	case ":m":
 		AmountStr := strings.Split(line, " ")
 		if len(AmountStr) < 2 {
 			Msg(ErrorMsg, "[:m] No Arguments \n")
@@ -39,9 +80,8 @@ func ParseForCommands(line string) string {
 		Msg(InfoMsg, "Printing last %d messages!\n", Amount)
 		State.RetrieveMessages(Amount)
 		PrintMessages(Amount)
-		line = ""
-	}
-	if strings.HasPrefix(line, ":u") {
+		return line
+	case ":u":
 		session := State.Session
 		user := session.User
 		newName := strings.TrimPrefix(line, ":u ")
@@ -49,9 +89,8 @@ func ParseForCommands(line string) string {
 		if err != nil {
 			Msg(ErrorMsg, "[:u] Argument Error: %s\n", err)
 		}
-		line = ""
-	}
-		
+		return line
+	}	
 	return line
 }
 

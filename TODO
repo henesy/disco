@@ -25,9 +25,13 @@ Features:
 * CAPTCHA solution -- http-proxy is a bad one
 
 * [done-ish] fix pm's
+	* when opening a pm, drops back to channel dialogue
 
 * aux/statusmsg backgrounds and doesn't steal input
 
 * fix :m not displaying more than loaded backlog
 
 * fix ctrl+d not closing out cleanly
+
+* add [b] go back to pm's menu
+
