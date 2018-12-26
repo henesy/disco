@@ -2,9 +2,7 @@ Commands:
 
 :r -- register via Register(email)
 
-:d [n] [file] -- dump backlog of last 'n' msgs to a file 'file'
-
-:c [n] and :c ? to switch and list channels, respectively
+:d [n] file -- dump backlog of last 'n' msgs to a file 'file'
 
 :? to list commands
 
@@ -33,5 +31,7 @@ Features:
 
 * fix ctrl+d not closing out cleanly
 
-* add [b] go back to pm's menu
+* add [b] go back to pm's menu from within pm's
+
+* fix :n printing to chat
 
