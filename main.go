@@ -7,6 +7,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"regexp"
@@ -55,7 +56,7 @@ func main() {
 	Msg(HeaderMsg, "disco version: %s\n\n", Version)
 
 	//NewSession
-	Session = DiscordState.NewSession(Config.Username, Config.Password) //Please don't abuse
+	Session = DiscordState.NewSession(Config.Username, Config.password) //Please don't abuse
 	err := Session.Start()
 	if err != nil {
 		log.Println("Session Failed")
@@ -77,7 +78,11 @@ func main() {
 	for {
 		//fmt.Print("> ")
 		//line, _ := rl.Readline()
-		line, _ := reader.ReadString('\n')
+		line, err := reader.ReadString('\n')
+		
+		if err == io.EOF {
+			break
+		}
 
 		// ```
 		if strings.HasPrefix(line, "```") {
@@ -95,7 +100,10 @@ func main() {
 			continue
 		}
 
-		line = line[:len(line)-1]
+		n := len(line)
+		if n > 0 {
+			line = line[:n-1]
+		}
 
 		//QUIT
 		if line == ":q" {

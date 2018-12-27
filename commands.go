@@ -80,7 +80,7 @@ func ParseForCommands(line string) string {
 		Msg(InfoMsg, "Printing last %d messages!\n", Amount)
 		State.RetrieveMessages(Amount)
 		PrintMessages(Amount)
-		return line
+		return ""
 	case ":u":
 		session := State.Session
 		user := session.User
@@ -88,8 +88,10 @@ func ParseForCommands(line string) string {
 		_, err := State.Session.DiscordGo.UserUpdate(user.Email, session.Password, newName, user.Avatar, "")
 		if err != nil {
 			Msg(ErrorMsg, "[:u] Argument Error: %s\n", err)
+			return ""
 		}
-		return line
+		Msg(TextMsg, "name -> %s\n", newName)
+		return ""
 	}	
 	return line
 }
