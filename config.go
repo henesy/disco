@@ -8,16 +8,17 @@ import (
 	"os"
 	"os/user"
 	//	"golang.org/x/crypto/ssh/terminal"
+	"bitbucket.org/mischief/libauth"
 )
 
 //Configuration is a struct that contains all configuration fields
 type Configuration struct {
 	Username       string `json:"username"`
-	Password       string `json:"password"`
 	MessageDefault bool   `json:"messagedefault"`
 	Messages       int    `json:"messages"`
 	CompletionChar string `json:"completionchar"`
 	TimeCompChar   string `json:"timecompchar"`
+	password       string
 }
 
 // Config is the global configuration of discord-cli
@@ -64,34 +65,6 @@ func CreateConfig() {
 	scan.Scan()
 
 	EmptyStruct.Username = scan.Text()
-	fmt.Print("Input your password: ")
-	//password, err := terminal.ReadPassword(0)
-
-	plan9 := true
-	/* Plan 9 raw mode for rio */
-	consctl, err := Rawon()
-	if err != nil {
-		fmt.Println("Failed to set rawon")
-		plan9 = false
-	}
-
-	password := ""
-
-	if plan9 {
-
-		password = GetCons()
-
-		err = RawOff(consctl)
-		if err != nil {
-			fmt.Println("\nFailed to set rawoff")
-			fmt.Print(err, "\n")
-		}
-	} else {
-		/* Maybe put linux terminal raw mode in here one day */
-		fmt.Println("Skipping raw input for Plan 9")
-	}
-
-	EmptyStruct.Password = string(password)
 	EmptyStruct.Messages = 10
 	EmptyStruct.MessageDefault = true
 	EmptyStruct.CompletionChar = ">"
@@ -131,9 +104,9 @@ func CheckState() {
 	if Config.Username == "" {
 		log.Fatalln("No Username Specified, please edit " + usr.HomeDir + "/lib/disco.cfg")
 	}
-
-	if Config.Password == "" {
-		log.Fatalln("No Password Specified, please edit " + usr.HomeDir + "/lib/disco.cfg")
+	userPwd, err := libauth.Getuserpasswd("proto=pass service=discord user=%s server=discordapp.com", Config.Username)
+	if err != nil {
+		log.Fatal(err)
 	}
-
+	Config.password = userPwd.Password
 }

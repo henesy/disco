@@ -16,7 +16,7 @@ Features:
 
 * verify proper permissions -rw------- 0600 for discord.cfg
 
-* if ``` entered, allow multi-line message (composition)
+* [done] if ``` entered, allow multi-line message (composition)
 
 * flag for larger backlog loading
 
@@ -25,7 +25,7 @@ Features:
 * [done-ish] fix pm's
 	* when opening a pm, drops back to channel dialogue
 
-* aux/statusmsg backgrounds and doesn't steal input
+* [done] aux/statusmsg backgrounds and doesn't steal input
 
 * fix :m not displaying more than loaded backlog
 
@@ -33,5 +33,5 @@ Features:
 
 * add [b] go back to pm's menu from within pm's
 
-* fix :n printing to chat
+* [done] fix :n printing to chat
 
