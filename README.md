@@ -33,6 +33,26 @@ Commands available in chat:
 | :p        | Pulls up the private channel menu |
 | :n name   | Change nickname to `name` |
 
+## Config
+
+A normal $home/lib/disco.ndb looks something like:
+
+```
+auth=pass
+loadbacklog=true
+messages=10
+promptchar=→
+timestampchar=>
+
+username=cooldude@mycooldomain.com	password=somepassword1
+```
+
+Note that the auth= tuple accepts
+
+	auth=factotum
+
+for authentication using a factotum key and will ignore the password= tuple.
+
 ## Notes
 
 If you can connect to a channel and see messages, but yours aren't sending, check to make sure your e-mail address is verified.
