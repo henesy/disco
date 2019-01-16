@@ -139,7 +139,7 @@ func InitWindow() {
 //ShowContent shows default Channel content
 func ShowContent() {
 	Header()
-	if Config.MessageDefault {
+	if Config.LoadBacklog {
 		State.RetrieveMessages(Config.Messages)
 		PrintMessages(Config.Messages)
 	}
