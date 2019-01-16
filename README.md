@@ -2,7 +2,7 @@
 
 Fork of theboxmage's [discord-cli](https://github.com/theboxmage/discordcli)
 
-JSON config is in `$home/lib/disco.cfg` for setting password, should be made automatically after first run.
+NDB config is in `$home/lib/disco.ndb` for setting password, should be made automatically after first run.
 
 ## Install
 
@@ -14,8 +14,6 @@ go get bitbucket.org/henesy/disco
 ```
 
 ## Problems
-
-* JSON
 
 * PM's are temporarily disabled
 

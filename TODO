@@ -8,13 +8,11 @@ Commands:
 
 Features:
 
-* remove JSON config
-
 * read $home/lib/discord.face for profile picture (or just face?)
 
-* delete disco.cfg on failure to log in for 400 bad request: password does not match
+* delete disco.ndb on failure to log in for 400 bad request: password does not match
 
-* verify proper permissions -rw------- 0600 for discord.cfg
+* runtime verify proper permissions -rw------- 0600 for discord.ndb
 
 * [done] if ``` entered, allow multi-line message (composition)
 

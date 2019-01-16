@@ -133,11 +133,11 @@ func MessagePrint(Time, Username, Content string) {
 	//var Color color.Attribute
 	log.SetFlags(0)
 	if *hideTimeStamp {
-		log.Printf("%s %s %s\n", Username, Config.CompletionChar, content)
+		log.Printf("%s %s %s\n", Username, Config.PromptChar, content)
 	} else {
 		TimeStamp, _ := time.Parse(time.RFC3339, Time)
 		LocalTime := TimeStamp.Local().Format("2006/01/02 15:04:05")
-		log.Printf("%s %s %s %s %s\n", LocalTime, Config.TimeCompChar, Username, Config.CompletionChar, content)
+		log.Printf("%s %s %s %s %s\n", LocalTime, Config.TimestampChar, Username, Config.PromptChar, content)
 
 	}
 	log.SetFlags(log.LstdFlags)
