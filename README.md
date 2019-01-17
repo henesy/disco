@@ -6,11 +6,20 @@ NDB config is in `$home/lib/disco.ndb` for setting password, should be made auto
 
 ## Install
 
+### Dependencies
+
+- 9fans.net/go/plan9
+- bitbucket.org/mischief/libauth
+- github.com/mischief/ndb
+- golang.org/x/crypto
+- github.com/gorilla/websocket
+- github.com/bwmarrin/discordgo
+
+### Installation
+
 ```
-go get github.com/bwmarrin/discordgo
-go get github.com/gorilla/websocket
-go get golang.org/x/crypto
 go get bitbucket.org/henesy/disco
+go install bitbucket.org/henesy/disco
 ```
 
 ## Problems
