@@ -1,6 +1,7 @@
 package main
 
 import (
+	"regexp"
 	"strconv"
 	"strings"
 	"github.com/bwmarrin/discordgo"
@@ -12,6 +13,41 @@ func ParseForCommands(line string) string {
 		return line
 	}
 	switch line[:2] {
+	case "s/":
+		r := regexp.MustCompile(`s\/((\w|\s)+)\/((\w|\s|)+)\/`)
+		n := r.FindStringSubmatchIndex(line)
+		if len(n) < 1 {
+			return ""
+		}
+		msg := State.Messages
+		for i := len(msg)-1; i >= 0; i-- {
+			if (msg[i].ChannelID != State.Channel.ID && msg[i].GuildID != State.Guild.ID) {
+				break
+			}
+			if msg[i].Author.ID != Session.User.ID {
+				break
+			}
+			if strings.Contains(msg[i].Content, line[n[2]:n[3]]) {
+				cmd, err := regexp.Compile("(" + line[n[2]:n[3]] + ")")
+				if err != nil {
+					Msg(ErrorMsg, "%s - invalid regex\n", line)
+				}
+				rep := cmd.ReplaceAllString(msg[i].Content, "")
+				if len(line) == 5 {
+					rep = cmd.ReplaceAllString(msg[i].Content, line[n[4]:n[5]])
+				}
+				data := discordgo.NewMessageEdit(msg[i].ChannelID, msg[i].ID)
+				data = data.SetContent(rep)
+				_, err = State.Session.DiscordGo.ChannelMessageEditComplex(data)
+				if err != nil {
+					Msg(ErrorMsg, "%s\n", err)
+					return ""
+				}
+				Msg(TextMsg, "%s -> %s\n", msg[i].Content, rep)
+				return ""
+			}
+		}
+		return line
 	case ":?":
 		// Show help menu
 		Msg(TextMsg, "Commands: ")

@@ -33,9 +33,13 @@ Commands available in chat:
 | :p        | Pulls up the private channel menu |
 | :n name   | Change nickname to `name` |
 
+You can regex the last message sent using a format such as:
+
+	s/forsynth/forsyth/g
+
 ## Config
 
-A normal $home/lib/disco.ndb looks something like:
+A basic $home/lib/disco.ndb looks something like:
 
 ```
 auth=pass
@@ -53,7 +57,7 @@ Note that the auth= tuple accepts
 
 for authentication using a factotum key and will ignore the password= tuple.
 
-The factotum key should resemble something to the effect of:
+If used, the factotum key should resemble something to the effect of:
 
 	proto=pass server=discordapp.com service=discord user=youremail@domain.com !password=hunter2
 
@@ -69,7 +73,7 @@ A: If you want to use `go get` on 9front to install disco and its dependencies (
 
 Q: What if I can't login because of a captcha error?
 
-A: You'll need to sign in to Discord via the web app (thus solving a captcha) using a browser with html5/js. I recommend an http proxy such as [this](https://bitbucket.org/henesy/http-proxy).
+A: You'll need to sign in to Discord via the web app (thus solving a captcha) using a browser with html5/js. I recommend an http proxy such as [this](https://bitbucket.org/henesy/http-proxy) in conjunction with a system with such a browser..
 
 Q: What if I get an error about signing in from a new location?
 
