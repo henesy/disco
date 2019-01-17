@@ -24,8 +24,6 @@ go install bitbucket.org/henesy/disco
 
 ## Problems
 
-* PM's are temporarily disabled
-
 * Does not create accounts for you, this still needs to be done in a browser/app
 
 * Does not support 2FA (Discord API explicitly does not allow this)

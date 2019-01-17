@@ -4,32 +4,24 @@ Commands:
 
 :d [n] file -- dump backlog of last 'n' msgs to a file 'file'
 
-:? to list commands
+:m needs fixed
 
 Features:
 
 * read $home/lib/discord.face for profile picture (or just face?)
 
-* delete disco.ndb on failure to log in for 400 bad request: password does not match
-
 * runtime verify proper permissions -rw------- 0600 for discord.ndb
 
-* [done] if ``` entered, allow multi-line message (composition)
-
-* flag for larger backlog loading
+* flag for larger backlog loading (similar to :m, which is broken atm)
 
 * CAPTCHA solution -- http-proxy is a bad one
 
-* [done-ish] fix pm's
-	* when opening a pm, drops back to channel dialogue
-
-* [done] aux/statusmsg backgrounds and doesn't steal input
+* refine :p and its menu
+	* when leaving a pm, drops back to channel dialogue from last guild (feature?)
 
 * fix :m not displaying more than loaded backlog
 
-* fix ctrl+d not closing out cleanly
+* fix ctrl+d not closing out cleanly (treat the same as :q)
 
-* add [b] go back to pm's menu from within pm's
-
-* [done] fix :n printing to chat
+* add [b] go back to pm's menu from within pm's rather than the :c menu for last guild
 
