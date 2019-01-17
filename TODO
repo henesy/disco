@@ -6,6 +6,8 @@ Commands:
 
 :m needs fixed
 
+s/word/words/ eats 'word', s/word/words/g works as expected
+
 Features:
 
 * read $home/lib/discord.face for profile picture (or just face?)
