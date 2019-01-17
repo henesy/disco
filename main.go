@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-//Global Message Types
+// Global Message Types
 const (
 	ErrorMsg  = "Error"
 	InfoMsg   = "Info"
@@ -22,18 +22,18 @@ const (
 	TextMsg   = "Text"
 )
 
-//Version is current version const
-const Version = "1.0"
+// Version is current version const
+const Version = "2.0"
 
-//Session is global Session
+// Session is global Session
 var Session *DiscordState.Session
 
-//State is global State
+// State is global State
 var State *DiscordState.State
 
-//UserChannels is global User Channels
+// UserChannels is global User Channels
 
-//MsgType is a string containing global message type
+// MsgType is a string containing global message type
 type MsgType string
 
 var hideTimeStamp = flag.Bool("t", false, "Hide timestamps in channel log")
@@ -47,25 +47,28 @@ func main() {
 		flag.Usage()
 		os.Exit(1)
 	}
+
 	if flag.Lookup("w") != nil {
 		*notifyFlag = fmt.Sprintf("-w %s", *notifyFlag)
 	}
-	//Initialize Config
+
+	// Initialize Config
 	GetConfig()
 	CheckState()
 	Msg(HeaderMsg, "disco version: %s\n\n", Version)
 
-	//NewSession
+	// NewSession
 	Session = DiscordState.NewSession(Config.Username, Config.password) //Please don't abuse
 	err := Session.Start()
 	if err != nil {
 		log.Println("Session Failed")
 		log.Fatalln(err)
 	}
-	//Attach New Window
+
+	// Attach New Window
 	InitWindow()
 
-	//Attach Even Handlers
+	// Attach Even Handlers
 	State.Session.DiscordGo.AddHandler(newMessage)
 	//State.Session.DiscordGo.AddHandler(newReaction)
 
@@ -73,7 +76,7 @@ func main() {
 	log.SetOutput(os.Stderr) // let "log" write to l.Stderr instead of os.Stderr
 	State.Session.DiscordGo.UpdateStatus(0, "Plan 9")
 
-	//Start Listening
+	// Start Listening
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		//fmt.Print("> ")
@@ -84,7 +87,7 @@ func main() {
 			break
 		}
 
-		// ```
+		// ``` multi-line code blocks
 		if strings.HasPrefix(line, "```") {
 			for {
 				subline, _ := reader.ReadString('\n')
@@ -105,12 +108,12 @@ func main() {
 			line = line[:n-1]
 		}
 
-		//QUIT
-		if line == ":q" {
+		// QUIT
+		if line == ":q" || line == "" {
 			break
 		}
 
-		//Parse Commands
+		// Parse Commands
 		line = ParseForCommands(line)
 
 		line = ParseForMentions(line)
@@ -126,34 +129,37 @@ func main() {
 	return
 }
 
-//InitWindow creates a New CLI Window
+// InitWindow creates a New CLI Window
 func InitWindow() {
 	SelectGuildMenu()
+
 	if State.Channel == nil {
 		SelectChannelMenu()
 	}
+
 	State.Enabled = true
 	ShowContent()
 }
 
-//ShowContent shows default Channel content
+// ShowContent shows default Channel content
 func ShowContent() {
 	Header()
+
 	if Config.LoadBacklog {
 		State.RetrieveMessages(Config.Messages)
 		PrintMessages(Config.Messages)
 	}
 }
 
-//ShowEmptyContent shows an empty channel
+// ShowEmptyContent shows an empty channel
 func ShowEmptyContent() {
 	Header()
-
 }
 
-//ParseForMentions parses input string for mentions
+// ParseForMentions parses input string for mentions
 func ParseForMentions(line string) string {
 	r, err := regexp.Compile("@\\w+")
+
 	if err != nil {
 		Msg(ErrorMsg, "Regex Error: ", err)
 	}
@@ -163,22 +169,26 @@ func ParseForMentions(line string) string {
 	return lineByte
 }
 
-//ReplaceMentions replaces mentions to ID
+// ReplaceMentions replaces mentions to ID
 func ReplaceMentions(input string) string {
 	// Check for guild members that match
 	for _, member := range State.Guild.Members {
 		if strings.HasPrefix(member.Nick, input[1:]) {
 			return member.User.Mention()
 		}
+
 		if strings.HasPrefix(member.User.Username, input[1:]) {
 			return member.User.Mention()
 		}
 	}
+
 	// Walk all PM channels
 	userChannels, err := Session.DiscordGo.UserChannels()
+
 	if err != nil {
 		return input
 	}
+
 	for _, channel := range userChannels {
 		for _, recipient := range channel.Recipients {
 			if strings.HasPrefix(input[1:], recipient.Username) {
@@ -186,14 +196,17 @@ func ReplaceMentions(input string) string {
 			}
 		}
 	}
+
 	return input
 }
 
-//Parse for guild-specific emoji
+// Parse for guild-specific emoji
 func ParseForEmoji(line string) string {
 	r, err := regexp.Compile("<(:\\w+:)[0-9]+>")
+
 	if err != nil {
 		Msg(ErrorMsg, "Regex Error: ", err)
 	}
+
 	return r.ReplaceAllString(line, "$1")
 }
