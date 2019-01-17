@@ -79,7 +79,7 @@ func main() {
 		//fmt.Print("> ")
 		//line, _ := rl.Readline()
 		line, err := reader.ReadString('\n')
-		
+
 		if err == io.EOF {
 			break
 		}
@@ -89,7 +89,7 @@ func main() {
 			for {
 				subline, _ := reader.ReadString('\n')
 				line += subline
-				if strings.Index(subline,  "```") != -1 {
+				if strings.Index(subline, "```") != -1 {
 					break
 				}
 			}
@@ -163,7 +163,7 @@ func ParseForMentions(line string) string {
 	return lineByte
 }
 
-//ReplaceMentions replaces mentions to ID 
+//ReplaceMentions replaces mentions to ID
 func ReplaceMentions(input string) string {
 	// Check for guild members that match
 	for _, member := range State.Guild.Members {
