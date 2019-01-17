@@ -7,8 +7,12 @@ import (
 	"strings"
 )
 
-//ParseForCommands parses input for Commands, returns message if no command specified, else return is empty
+// ParseForCommands parses input for Commands, returns message if no command specified, else return is empty
 func ParseForCommands(line string) string {
+	if len(line) < 2 {
+		return line
+	}
+
 	switch line[:2] {
 	case "s/":
 		r := regexp.MustCompile(`s/([^/]+)/([^/]*)/$`)
