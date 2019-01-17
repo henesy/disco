@@ -53,6 +53,10 @@ Note that the auth= tuple accepts
 
 for authentication using a factotum key and will ignore the password= tuple.
 
+The factotum key should resemble something to the effect of:
+
+	proto=pass server=discordapp.com service=discord user=youremail@domain.com !password=hunter2
+
 ## Notes
 
 If you can connect to a channel and see messages, but yours aren't sending, check to make sure your e-mail address is verified.
