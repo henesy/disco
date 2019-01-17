@@ -27,3 +27,6 @@ Features:
 
 * add [b] go back to pm's menu from within pm's rather than the :c menu for last guild
 
+Bugs:
+
+* (maybe a Go bug) ­ if you do: `drawterm -G … -c disco` then ctrl+c the terminal (from Linux or so), load maxes and memory allocation spikes on the plan9 server
