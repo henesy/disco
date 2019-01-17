@@ -43,7 +43,7 @@ func ParseForCommands(line string) string {
 			Msg(ErrorMsg, "%s\n", err)
 			return ""
 		}
-		Msg(TextMsg, "%s -> %s\n", m.Content, rep)
+		Msg(TextMsg, "%s → %s\n", m.Content, rep)
 		return ""
 	case ":?":
 		// Show help menu
@@ -118,13 +118,14 @@ func ParseForCommands(line string) string {
 	case ":n":
 		session := State.Session
 		user := session.User
+		oldName := user.Username
 		newName := strings.TrimPrefix(line, ":n ")
 		_, err := State.Session.DiscordGo.UserUpdate(user.Email, session.Password, newName, user.Avatar, "")
 		if err != nil {
 			Msg(ErrorMsg, "[:n] Argument Error: %s\n", err)
 			return ""
 		}
-		Msg(TextMsg, "name -> %s\n", newName)
+		Msg(TextMsg, "%s → %s\n", oldName, newName)
 		return ""
 	}
 	return line
