@@ -50,14 +50,15 @@ func ParseForCommands(line string) string {
 		return line
 	case ":?":
 		// Show help menu
-		Msg(TextMsg, "Commands: ")
-		Msg(TextMsg, "[:g] - Select guild")
-		Msg(TextMsg, "[:p] - Select private message")
-		Msg(TextMsg, "[:c] - Select guild channel")
-		Msg(TextMsg, "[:c ?] - List guild channels")
-		Msg(TextMsg, "[:c <num>] - Go directly to channel")
-		Msg(TextMsg, "[:m <num>] - Display last <num> messages")
-		Msg(TextMsg, "[:u <name>] - Change username")
+		Msg(TextMsg, "Commands: \n")
+		Msg(TextMsg, "[:g] - Open guild menu\n")
+		Msg(TextMsg, "[:p] - Open private message menu\n")
+		Msg(TextMsg, "[:c] - Open guild channel menu\n")
+		Msg(TextMsg, "[:c ?] - List guild channels\n")
+		Msg(TextMsg, "[:c <num>] - Go directly to channel <num>\n")
+		Msg(TextMsg, "[:m <num>] - Display last <num> messages\n")
+		Msg(TextMsg, "[:n <name>] - Change username to <name>\n")
+		return ""
 	case ":g":
 		SelectGuild()
 		return ""
@@ -117,13 +118,13 @@ func ParseForCommands(line string) string {
 		State.RetrieveMessages(Amount)
 		PrintMessages(Amount)
 		return ""
-	case ":u":
+	case ":n":
 		session := State.Session
 		user := session.User
-		newName := strings.TrimPrefix(line, ":u ")
+		newName := strings.TrimPrefix(line, ":n ")
 		_, err := State.Session.DiscordGo.UserUpdate(user.Email, session.Password, newName, user.Avatar, "")
 		if err != nil {
-			Msg(ErrorMsg, "[:u] Argument Error: %s\n", err)
+			Msg(ErrorMsg, "[:n] Argument Error: %s\n", err)
 			return ""
 		}
 		Msg(TextMsg, "name -> %s\n", newName)

@@ -27,11 +27,12 @@ Commands available in chat:
 | Command       | Function    |
 | ------------- |-------------|
 | :q        | Quits disco |
-| :g        | Change listening Guild|
-| :c [n|?]  | Change listening Channel inside Guild, or list channels |
+| :g        | Change listening Guild |
+| :c [n ?]  | Change listening Channel inside Guild, or list channels |
 | :m [n]    | Display last [n] messages: ex. `:m 2` displays last two messages |
 | :p        | Pulls up the private channel menu |
 | :n name   | Change nickname to `name` |
+| :?        | List the available commands |
 
 You can regex the last message sent using a format such as:
 
