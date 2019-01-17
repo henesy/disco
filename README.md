@@ -43,7 +43,7 @@ Commands available in chat:
 
 You can regex the last message sent using a format such as:
 
-	s/forsynth/forsyth/g
+	s/forsynth/forsyth/
 
 ## Config
 

@@ -9,45 +9,38 @@ import (
 
 //ParseForCommands parses input for Commands, returns message if no command specified, else return is empty
 func ParseForCommands(line string) string {
-	if len(line) < 2 {
-		return line
-	}
 	switch line[:2] {
 	case "s/":
-		r := regexp.MustCompile(`s\/((\w|\s)+)\/((\w|\s|)+)\/`)
+		r := regexp.MustCompile(`s/([^/]+)/([^/]*)/$`)
 		n := r.FindStringSubmatchIndex(line)
 		if len(n) < 1 {
 			return ""
 		}
-		msg := State.Messages
-		for i := len(msg)-1; i >= 0; i-- {
-			if (msg[i].ChannelID != State.Channel.ID && msg[i].GuildID != State.Guild.ID) {
+		i := 0
+		var m *discordgo.Message
+		for i = len(State.Messages) - 1; i >= 0; i-- {
+			m = State.Messages[i]
+			if m.ChannelID == State.Channel.ID && m.GuildID == State.Guild.ID && m.Author.ID == Session.User.ID {
 				break
-			}
-			if msg[i].Author.ID != Session.User.ID {
-				break
-			}
-			if strings.Contains(msg[i].Content, line[n[2]:n[3]]) {
-				cmd, err := regexp.Compile("(" + line[n[2]:n[3]] + ")")
-				if err != nil {
-					Msg(ErrorMsg, "%s - invalid regex\n", line)
-				}
-				rep := cmd.ReplaceAllString(msg[i].Content, "")
-				if len(line) == 5 {
-					rep = cmd.ReplaceAllString(msg[i].Content, line[n[4]:n[5]])
-				}
-				data := discordgo.NewMessageEdit(msg[i].ChannelID, msg[i].ID)
-				data = data.SetContent(rep)
-				_, err = State.Session.DiscordGo.ChannelMessageEditComplex(data)
-				if err != nil {
-					Msg(ErrorMsg, "%s\n", err)
-					return ""
-				}
-				Msg(TextMsg, "%s -> %s\n", msg[i].Content, rep)
-				return ""
 			}
 		}
-		return line
+		if i == 0 || !strings.Contains(m.Content, line[n[2]:n[3]]) {
+			return ""
+		}
+		r, err := regexp.Compile("(" + line[n[2]:n[3]] + ")")
+		if err != nil {
+			Msg(ErrorMsg, "%s - invalid regex\n", line)
+		}
+		rep := r.ReplaceAllString(m.Content, line[n[4]:n[5]])
+		newm := discordgo.NewMessageEdit(m.ChannelID, m.ID)
+		newm = newm.SetContent(rep)
+		_, err = State.Session.DiscordGo.ChannelMessageEditComplex(newm)
+		if err != nil {
+			Msg(ErrorMsg, "%s\n", err)
+			return ""
+		}
+		Msg(TextMsg, "%s -> %s\n", m.Content, rep)
+		return ""
 	case ":?":
 		// Show help menu
 		Msg(TextMsg, "Commands: \n")
