@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/bwmarrin/discordgo"
 	"regexp"
 	"strconv"
 	"strings"
-	"github.com/bwmarrin/discordgo"
 )
 
 //ParseForCommands parses input for Commands, returns message if no command specified, else return is empty
@@ -122,7 +122,7 @@ func ParseForCommands(line string) string {
 		}
 		Msg(TextMsg, "name -> %s\n", newName)
 		return ""
-	}	
+	}
 	return line
 }
 

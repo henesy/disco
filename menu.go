@@ -305,39 +305,39 @@ func AddUserChannelMenu() {
 	if State.Channel.GuildID == "" {
 		Msg(ErrorMsg, "Currently in a user channel, move to a guild with :g\n")
 	} else {
-	SelectMap := make(map[int]string)
-Start:
-	SelectID := 0
-	for _, Member := range State.Members {
-		SelectMap[SelectID] = Member.User.ID
-		Msg(TextMsg, "[%d] %s\n", SelectID, Member.User.Username)
-		SelectID++
-	}
-	var response string
-	fmt.Scanf("%s\n", &response)
+		SelectMap := make(map[int]string)
+	Start:
+		SelectID := 0
+		for _, Member := range State.Members {
+			SelectMap[SelectID] = Member.User.ID
+			Msg(TextMsg, "[%d] %s\n", SelectID, Member.User.Username)
+			SelectID++
+		}
+		var response string
+		fmt.Scanf("%s\n", &response)
 
-	if response == "b" {
-		return
-	}
+		if response == "b" {
+			return
+		}
 
-	ResponseInteger, err := strconv.Atoi(response)
-	if err != nil {
-		Msg(ErrorMsg, "(CH) Conversion Error: %s\n", err)
-		goto Start
-	}
+		ResponseInteger, err := strconv.Atoi(response)
+		if err != nil {
+			Msg(ErrorMsg, "(CH) Conversion Error: %s\n", err)
+			goto Start
+		}
 
-	if ResponseInteger > SelectID-1 || ResponseInteger < 0 {
-		Msg(ErrorMsg, "(CH) Error: ID is out of bound\n")
-		goto Start
-	}
-	Chan, err := Session.DiscordGo.UserChannelCreate(SelectMap[ResponseInteger])
+		if ResponseInteger > SelectID-1 || ResponseInteger < 0 {
+			Msg(ErrorMsg, "(CH) Error: ID is out of bound\n")
+			goto Start
+		}
+		Chan, err := Session.DiscordGo.UserChannelCreate(SelectMap[ResponseInteger])
 
-	if Chan.LastMessageID == "" {
-		var firstMessage string
-		fmt.Scanf("%s\n", &firstMessage)
-		Session.DiscordGo.ChannelMessageSend(Chan.ID, "Test")
-	}
-	State.Channel = Chan
+		if Chan.LastMessageID == "" {
+			var firstMessage string
+			fmt.Scanf("%s\n", &firstMessage)
+			Session.DiscordGo.ChannelMessageSend(Chan.ID, "Test")
+		}
+		State.Channel = Chan
 	}
 }
 

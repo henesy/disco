@@ -1,34 +1,35 @@
 package main
 
 import (
+	"bitbucket.org/mischief/libauth"
 	"bufio"
 	"fmt"
+	"github.com/mischief/ndb"
 	"log"
 	"os"
 	"os/user"
-sc	"strconv"
+	sc "strconv"
 	"strings"
-	"bitbucket.org/mischief/libauth"
-	"github.com/mischief/ndb"
 )
 
 // Types of auth we can do ­ add handling for new modes to atoam()
 type AuthModes int
+
 const (
-	Pass		AuthModes = iota
+	Pass AuthModes = iota
 	Factotum
-	Unknown		// Placeholder
+	Unknown // Placeholder
 )
 
 //Configuration is a struct that contains all configuration fields
 type Configuration struct {
-	AuthMode		AuthModes
-	Username		string
-	LoadBacklog		bool
-	Messages		int
-	PromptChar		string
-	TimestampChar	string
-	password		string
+	AuthMode      AuthModes
+	Username      string
+	LoadBacklog   bool
+	Messages      int
+	PromptChar    string
+	TimestampChar string
+	password      string
 }
 
 // Config is the global configuration of discord-cli
@@ -50,15 +51,15 @@ func atob(s string) bool {
 // Convert a string such as "factotum" into factotum
 func atoam(s string) AuthModes {
 	s = strings.ToLower(s)
-	
+
 	if s == "pass" {
 		return Pass
 	}
-	
+
 	if s == "factotum" {
 		return Factotum
 	}
-	
+
 	return Unknown
 }
 
@@ -87,18 +88,18 @@ Start:
 	if err != nil {
 		log.Fatal("error: Could not ")
 	}
-	
+
 	Config.Username = ndb.Search("username", "").Search("username")
 	Config.AuthMode = atoam(ndb.Search("auth", "").Search("auth"))
-	
+
 	if Config.AuthMode == Pass {
 		Config.password = ndb.Search("username", "").Search("password")
 	}
 
-	Config.LoadBacklog		= atob(ndb.Search("loadbacklog", "").Search("loadbacklog"))
-	Config.Messages, _		= sc.Atoi(ndb.Search("messages", "").Search("messages"))
-	Config.PromptChar		= ndb.Search("promptchar", "").Search("promptchar")
-	Config.TimestampChar	= ndb.Search("timestampchar", "").Search("timestampchar")
+	Config.LoadBacklog = atob(ndb.Search("loadbacklog", "").Search("loadbacklog"))
+	Config.Messages, _ = sc.Atoi(ndb.Search("messages", "").Search("messages"))
+	Config.PromptChar = ndb.Search("promptchar", "").Search("promptchar")
+	Config.TimestampChar = ndb.Search("timestampchar", "").Search("timestampchar")
 
 }
 
@@ -118,14 +119,14 @@ func CreateConfig() {
 	raw := fmt.Sprintf("auth=pass\nloadbacklog=true\nmessages=10\npromptchar=→\ntimestampchar=>\n\nusername=%s	password=\n", scan.Text())
 
 	// Create File
-	os.Mkdir(usr.HomeDir + "/lib", 0775)
-	
+	os.Mkdir(usr.HomeDir+"/lib", 0775)
+
 	file, err := os.Create(usr.HomeDir + ConfigPath)
-	
+
 	if err != nil {
 		log.Fatalln(err)
 	}
-	
+
 	file.Chmod(0600)
 
 	// PrintToFile
@@ -150,9 +151,9 @@ func CheckState() {
 	if Config.Username == "" {
 		log.Fatalln("Error: No Username Specified, please edit " + usr.HomeDir + ConfigPath)
 	}
-	
+
 	// Check and handle password loading
-	switch(Config.AuthMode){
+	switch Config.AuthMode {
 	case Factotum:
 		// Acquire password from factotum
 		userPwd, err := libauth.Getuserpasswd("proto=pass service=discord user=%s server=discordapp.com", Config.Username)
@@ -171,8 +172,8 @@ func CheckState() {
 	default:
 		// Password is already loaded in auth=pass mode
 	}
-	
-	if(Config.password == "") {
+
+	if Config.password == "" {
 		log.Fatalln("Error: No password loaded, cannot auth. Are you missing a factotum key or password= tuple?")
 	}
 }

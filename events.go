@@ -38,7 +38,7 @@ func newMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	DMs, err := Session.DiscordGo.UserChannels()
 	if err != nil {
-		// No DMs 
+		// No DMs
 		return
 	}
 	for _, channel := range DMs {
