@@ -132,7 +132,7 @@ func MessagePrint(Time, Username, Content string) {
 	content := ParseForEmoji(Content)
 	//var Color color.Attribute
 	log.SetFlags(0)
-	if *hideTimeStamp {
+	if ! *timeStamp {
 		log.Printf("%s %s %s\n", Username, Config.PromptChar, content)
 	} else {
 		TimeStamp, _ := time.Parse(time.RFC3339, Time)
