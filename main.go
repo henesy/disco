@@ -36,7 +36,7 @@ var State *DiscordState.State
 // MsgType is a string containing global message type
 type MsgType string
 
-var hideTimeStamp = flag.Bool("t", false, "Hide timestamps in channel log")
+var timeStamp = flag.Bool("t", false, "Hide timestamps in channel log")
 var enableNotify = flag.Bool("n", false, "Enable notifications")
 var notifyFlag = flag.String("w", "10,10,260,90", "Dimensions to pass through to statusmsg")
 
