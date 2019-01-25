@@ -1,0 +1,59 @@
+#!/bin/rc
+# Get dependencies for disco when no dgit is present
+# This script may not be up to date and exists only as a courtesy
+
+if(! test -e $GOPATH/src){
+	mkdir -p $GOPATH/src
+}
+
+gitdeps = (github.com/mischief/ndb github.com/gorilla/websocket github.com/bwmarrin/discordgo)
+
+cd $GOPATH/src
+
+# Handle crypto package manually
+
+echo Downloading golang.org/x/crypto…
+mkdir -p $GOPATH/src/golang.org/x/crypto
+cd $GOPATH/src/golang.org/x
+
+hget https://github.com/golang/crypto/archive/master.zip > $GOPATH/src/golang.org/x/master.zip
+unzip -f master.zip
+mv crypto-master crypto
+rm master.zip
+
+cd $GOPATH/src
+
+# Handle 9fans package manually
+
+echo Downloading 9fans.net/go/plan9…
+mkdir -p $GOPATH/src/9fans.net/go/plan9
+cd $GOPATH/src/9fans.net/go
+
+hget https://github.com/9fans/go/archive/master.zip > $GOPATH/src/9fans.net/go/master.zip
+unzip -f master.zip
+mv go-master plan9
+rm master.zip
+
+cd $GOPATH/src
+
+# Other deps
+
+echo Downloading bitbucket.org/mischief/libauth…
+go get bitbucket.org/mischief/libauth
+
+cd $GOPATH/src
+
+for(i in $gitdeps){
+	echo 'Downloading '^$i^'…'
+	mkdir -p $i
+	cd $i
+	cd ..
+	hget 'http://'^$i^'/archive/master.zip' > master.zip
+	unzip -f master.zip
+	repo = `{echo $i | awk -F '/' '{print $3}'}
+	mv $repo^'-master' $repo
+	rm master.zip
+	cd $GOPATH/src
+}
+
+echo Done.
