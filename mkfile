@@ -14,7 +14,11 @@ bins:
 		for(a in $arch){
 			mkdir -p bin/$p/$a
 			GOOS=$p GOARCH=$a go build
-			cp disco bin/$p/$a/
-			rm disco
+			file = disco
+			if(! test -e $file){
+				file = disco.exe
+			}
+			cp $file bin/$p/$a/
+			rm $file
 		}
 	}
