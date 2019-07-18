@@ -15,6 +15,7 @@ func ParseForCommands(line string) string {
 
 	switch line[:2] {
 	case "s/":
+		// `s/X/Y/` replace X with Y in the last message sent
 		r := regexp.MustCompile(`s/([^/]+)/([^/]*)/$`)
 		n := r.FindStringSubmatchIndex(line)
 		if len(n) < 1 {
@@ -45,9 +46,11 @@ func ParseForCommands(line string) string {
 		}
 		Msg(TextMsg, "%s → %s\n", m.Content, rep)
 		return ""
+
 	case ":?":
 		// Show help menu
 		Msg(TextMsg, "Commands: \n")
+		Msg(TextMsg, "s/X/Y/ - Replace X with Y in the last message\n")
 		Msg(TextMsg, "[:g] - Open guild menu\n")
 		Msg(TextMsg, "[:p] - Open private message menu\n")
 		Msg(TextMsg, "[:c] - Open guild channel menu\n")
@@ -55,14 +58,22 @@ func ParseForCommands(line string) string {
 		Msg(TextMsg, "[:c <num>] - Go directly to channel <num>\n")
 		Msg(TextMsg, "[:m <num>] - Display last <num> messages\n")
 		Msg(TextMsg, "[:n <name>] - Change username to <name>\n")
+		Msg(TextMsg, "[:!] - Print current server information\n")
+		Msg(TextMsg, "[:?] - Print this menu\n")
 		return ""
+
 	case ":g":
+		// Choose a server (guild)
 		SelectGuild()
 		return ""
+
 	case ":p":
+		// Enter DM menu
 		SelectPrivate()
 		return ""
+
 	case ":c":
+		// Choose a channel within the server
 		opts := strings.Split(line, " ")
 		if len(opts) == 1 {
 			SelectChannel()
@@ -98,7 +109,9 @@ func ParseForCommands(line string) string {
 		State.SetChannel(channel.ID)
 		ShowContent()
 		return ""
+
 	case ":m":
+		// Load message backlog -- TODO ­ currently does not retrieve more than n messages
 		AmountStr := strings.Split(line, " ")
 		if len(AmountStr) < 2 {
 			Msg(ErrorMsg, "[:m] No Arguments \n")
@@ -115,7 +128,9 @@ func ParseForCommands(line string) string {
 		State.RetrieveMessages(Amount)
 		PrintMessages(Amount)
 		return ""
+
 	case ":n":
+		// Change nickname
 		session := State.Session
 		user := session.User
 		oldName := user.Username
@@ -127,7 +142,13 @@ func ParseForCommands(line string) string {
 		}
 		Msg(TextMsg, "%s → %s\n", oldName, newName)
 		return ""
+
+	case ":!":
+		// Print current server information
+		Msg(TextMsg, GuildInfo(State.Guild))
+		return ""
 	}
+
 	return line
 }
 

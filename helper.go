@@ -132,7 +132,7 @@ func MessagePrint(Time, Username, Content string) {
 	content := ParseForEmoji(Content)
 	//var Color color.Attribute
 	log.SetFlags(0)
-	if ! *timeStamp {
+	if !*timeStamp {
 		log.Printf("%s %s %s\n", Username, Config.PromptChar, content)
 	} else {
 		TimeStamp, _ := time.Parse(time.RFC3339, Time)
@@ -147,6 +147,7 @@ func dis(a, b int) float64 {
 	return float64((a - b) * (a - b))
 }
 
+// Turn raw mode on -- rio in Plan9 only
 func Rawon() (*os.File, error) {
 	consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
 	if err != nil {
@@ -165,13 +166,8 @@ func Rawon() (*os.File, error) {
 	return consctl, nil
 }
 
+// Turn raw mode off -- rio in Plan9 only
 func RawOff(consctl *os.File) error {
-	//consctl, err := os.OpenFile("/dev/consctl", os.O_WRONLY, 0200)
-	//if err != nil {
-	//	/* not on Plan 9 */
-	//	return err
-	//}
-
 	rawoff := []byte("rawoff")
 	_, err := consctl.Write(rawoff)
 	if err != nil {
@@ -183,6 +179,7 @@ func RawOff(consctl *os.File) error {
 	return nil
 }
 
+// Return the text currently in /dev/cons -- Plan9 only
 func GetCons() string {
 	cons, err := os.OpenFile("/dev/cons", os.O_RDWR, 0600)
 	if err != nil {
@@ -191,4 +188,22 @@ func GetCons() string {
 	consScan := bufio.NewScanner(cons)
 	consScan.Scan()
 	return consScan.Text()
+}
+
+// Nicely stringifies the useful info about a guild -- ends in \n
+func GuildInfo(g *discordgo.Guild) (s string) {
+	s += "\n"
+	s += fmt.Sprintf("Name:\t\t%s\n", g.Name)
+	s += fmt.Sprintf("ID:\t\t\t%s\n", g.ID)
+	s += fmt.Sprintf("Icon:\t\t%s\n", g.Icon)
+	s += fmt.Sprintf("Region:\t\t%s\n", g.Region)
+	s += fmt.Sprintf("Owner ID:\t%s\n", g.OwnerID)
+	s += fmt.Sprintf("Join time:\t%s\n", g.JoinedAt)
+	s += fmt.Sprintf("# Members:\t%d\n", g.MemberCount)
+	s += fmt.Sprintf("# Channels:\t%d\n", len(g.Channels))
+	s += fmt.Sprintf("# Roles:\t%d\n", len(g.Roles))
+	s += fmt.Sprintf("# Emojis:\t%d\n", len(g.Emojis))
+	s += "\n"
+
+	return
 }
