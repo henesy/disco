@@ -68,7 +68,7 @@ func main() {
 	// Attach New Window
 	InitWindow()
 
-	// Attach Even Handlers
+	// Attach Event Handlers
 	State.Session.DiscordGo.AddHandler(newMessage)
 	//State.Session.DiscordGo.AddHandler(newReaction)
 

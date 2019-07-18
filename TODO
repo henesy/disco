@@ -30,3 +30,8 @@ Features:
 Bugs:
 
 * (maybe a Go bug) ­ if you do: `drawterm -G … -c disco` then ctrl+c the terminal (from Linux or so), load maxes and memory allocation spikes on the plan9 server
+
+* The following error at boot:
+
+	Connecting...2019/07/17 23:39:53 [DG0] wsapi.go:552:onEvent() error unmarshalling READY event, json: cannot unmarshal number into Go struct field ReadState.last_message_id of type string
+	 PASSED!

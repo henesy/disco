@@ -56,6 +56,7 @@ func (State *State) DelMessage(Message *discordgo.Message) {
 
 //RetrieveMessages retrieves last N Messages and puts it in state
 func (State *State) RetrieveMessages(Amount int) error {
+	// See: https://godoc.org/github.com/bwmarrin/discordgo#Channel and https://godoc.org/github.com/bwmarrin/discordgo#State for max message count
 	Messages, err := State.Session.DiscordGo.ChannelMessages(State.Channel.ID, Amount, "", "", "")
 	if err != nil {
 		return err
