@@ -8,11 +8,13 @@ install: all
 	cp ./disco $home/bin/$GOARCH/disco
 
 bins: 
+	plat=(plan9 linux windows)
 	arch=(amd64 386 arm)
-	mkdir bin
-	for(a in $arch){
-		mkdir bin/$a
-		GOARCH=$a go build
-		cp disco bin/^$a^/
-		rm disco
+	for(p in $plat){
+		for(a in $arch){
+			mkdir -p bin/$p/$a
+			GOOS=$p GOARCH=$a go build
+			cp disco bin/$p/$a/
+			rm disco
+		}
 	}
