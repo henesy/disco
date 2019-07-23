@@ -23,7 +23,7 @@ const (
 )
 
 // Version is current version const
-const Version = "2.0"
+const Version = "2.2" 
 
 // Session is global Session
 var Session *DiscordState.Session
