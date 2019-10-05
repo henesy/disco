@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/Plan9-Archive/libauth"
 	"bufio"
 	"fmt"
+	"github.com/Plan9-Archive/libauth"
 	"github.com/mischief/ndb"
 	"log"
 	"os"

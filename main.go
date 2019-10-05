@@ -3,10 +3,10 @@
 package main
 
 import (
-	"github.com/henesy/disco/DiscordState"
 	"bufio"
 	"flag"
 	"fmt"
+	"github.com/henesy/disco/DiscordState"
 	"io"
 	"log"
 	"os"
@@ -23,7 +23,7 @@ const (
 )
 
 // Version is current version const
-const Version = "2.3" 
+const Version = "2.3"
 
 // Session is global Session
 var Session *DiscordState.Session
@@ -161,7 +161,7 @@ func ParseForMentions(line string) string {
 	r, err := regexp.Compile("@\\w+")
 
 	if err != nil {
-		Msg(ErrorMsg, "Regex Error: ", err)
+		Msg(ErrorMsg, "Regex Error: %s\n", err)
 	}
 
 	lineByte := r.ReplaceAllStringFunc(line, ReplaceMentions)
@@ -174,18 +174,18 @@ func ReplaceMentions(input string) string {
 	if len(input) < 2 {
 		return input
 	}
-	
+
 	name := input[1:]
-	
+
 	// Get up to 1000 members as per documented max starting from the top
 	members, err := Session.DiscordGo.GuildMembers(State.Guild.ID, "", 1000)
 	if err != nil {
-		Msg(ErrorMsg, "Could not Lookup Members: ", err)
+		Msg(ErrorMsg, "Could not Lookup Members: %s\n", err)
 		return input
 	}
 
 	// Check for guild members that match
-	for _, member := range members {	
+	for _, member := range members {
 		if strings.HasPrefix(member.Nick, name) {
 			return member.User.Mention()
 		}
@@ -194,7 +194,7 @@ func ReplaceMentions(input string) string {
 			return member.User.Mention()
 		}
 	}
-	
+
 	// Walk all PM channels
 	userChannels, err := Session.DiscordGo.UserChannels()
 
@@ -218,7 +218,7 @@ func ParseForEmoji(line string) string {
 	r, err := regexp.Compile("<(:\\w+:)[0-9]+>")
 
 	if err != nil {
-		Msg(ErrorMsg, "Regex Error: ", err)
+		Msg(ErrorMsg, "Regex Error: %s\n", err)
 	}
 
 	return r.ReplaceAllString(line, "$1")

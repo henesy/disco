@@ -1,8 +1,8 @@
 # disco: [Discord](https://discord.gg) client for 9front
 
-Fork of theboxmage's [discord-cli](https://github.com/theboxmage/discordcli)
+Fork of theboxmage's [discord-cli](https://github.com/theboxmage/discordcli).
 
-NDB config is in `$home/lib/disco.ndb` for setting password, should be made automatically after first run.
+Ndb config is in `$home/lib/disco.ndb` for setting password, should be made automatically after first run. Alternatively, you may use factotum. 
 
 ## Install
 
@@ -18,17 +18,23 @@ NDB config is in `$home/lib/disco.ndb` for setting password, should be made auto
 ### Installation
 
 ```
-go get github.com/henesy/disco
-go install github.com/henesy/disco
+% go get github.com/henesy/disco
+% go install github.com/henesy/disco
 ```
 
-## Problems
+## Usage
 
-* Does not create accounts for you, this still needs to be done in a browser/app
-
-* Does not support 2FA (Discord API explicitly does not allow this)
+```
+% disco -h
+Usage of disco:
+  -n	Enable notifications
+  -t	Hide timestamps in channel log
+  -w string
+    	Dimensions to pass through to statusmsg (default "10,10,260,90")
+```
 
 ## Commands
+
 Commands available in chat:
 
 | Command       | Function    |
@@ -48,7 +54,7 @@ You can regex the last message sent using a format such as:
 
 ## Config
 
-A basic $home/lib/disco.ndb looks something like:
+A basic `$home/lib/disco.ndb` looks something like:
 
 ```
 auth=pass
@@ -57,7 +63,7 @@ messages=10
 promptchar=→
 timestampchar=>
 
-username=cooldude@mycooldomain.com	password=somepassword1
+username=coolperson@mycooldomain.com	password=somepassword1
 ```
 
 Note that the auth= tuple accepts
@@ -87,4 +93,9 @@ A: You'll need to sign in to Discord via the web app (thus solving a captcha) us
 Q: What if I get an error about signing in from a new location?
 
 A: Discord has sent you an e-mail with a location confirmation link, click it, no js should be required.
+
+## Problems
+
+* Does not create accounts for you, this still needs to be done in a browser/app
+* Does not support 2FA (Discord API explicitly does not allow this)
 

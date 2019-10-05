@@ -173,11 +173,11 @@ Start:
 			SelectPrivate()
 		} else {
 			State, err = Session.NewState(SelectMap[0], Config.Messages)
-			
+
 			if err != nil {
 				log.Fatal(err)
 			}
-			
+
 			SelectPrivate()
 		}
 	} else {
