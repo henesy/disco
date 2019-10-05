@@ -60,7 +60,7 @@ func (Session *Session) NewState(GuildID string, MessageAmount int) (*State, err
 	State.Session = Session
 
 	//Set Guild
-	for _, guildID := range Session.Guilds {
+	for _, guildID := range Session.Guilds {	
 		if guildID.ID == GuildID {
 			Guild, err := State.Session.DiscordGo.Guild(guildID.ID)
 			if err != nil {

@@ -9,7 +9,7 @@ NDB config is in `$home/lib/disco.ndb` for setting password, should be made auto
 ### Dependencies
 
 - 9fans.net/go/plan9
-- bitbucket.org/mischief/libauth
+- github.com/Plan9-Archive/libauth
 - github.com/mischief/ndb
 - golang.org/x/crypto
 - github.com/gorilla/websocket
@@ -18,8 +18,8 @@ NDB config is in `$home/lib/disco.ndb` for setting password, should be made auto
 ### Installation
 
 ```
-go get bitbucket.org/henesy/disco
-go install bitbucket.org/henesy/disco
+go get github.com/henesy/disco
+go install github.com/henesy/disco
 ```
 
 ## Problems
@@ -82,7 +82,7 @@ A: If you want to use `go get` on 9front to install disco and its dependencies (
 
 Q: What if I can't login because of a captcha error?
 
-A: You'll need to sign in to Discord via the web app (thus solving a captcha) using a browser with html5/js. I recommend an http proxy such as [this](https://bitbucket.org/henesy/http-proxy) in conjunction with a system with such a browser..
+A: You'll need to sign in to Discord via the web app (thus solving a captcha) using a browser with html5/js. I recommend an http proxy such as [this](https://github.com/henesy/http-proxy) in conjunction with a system with such a browser..
 
 Q: What if I get an error about signing in from a new location?
 

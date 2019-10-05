@@ -3,7 +3,7 @@
 package main
 
 import (
-	"bitbucket.org/henesy/disco/DiscordState"
+	"github.com/henesy/disco/DiscordState"
 	"bufio"
 	"flag"
 	"fmt"
@@ -23,7 +23,7 @@ const (
 )
 
 // Version is current version const
-const Version = "2.2" 
+const Version = "2.3" 
 
 // Session is global Session
 var Session *DiscordState.Session
@@ -121,7 +121,7 @@ func main() {
 		if line != "" {
 			_, err := State.Session.DiscordGo.ChannelMessageSend(State.Channel.ID, line)
 			if err != nil {
-				fmt.Print("Error: ", err, "\n")
+				fmt.Println("Error:", err)
 			}
 		}
 	}
@@ -171,17 +171,30 @@ func ParseForMentions(line string) string {
 
 // ReplaceMentions replaces mentions to ID
 func ReplaceMentions(input string) string {
+	if len(input) < 2 {
+		return input
+	}
+	
+	name := input[1:]
+	
+	// Get up to 1000 members as per documented max starting from the top
+	members, err := Session.DiscordGo.GuildMembers(State.Guild.ID, "", 1000)
+	if err != nil {
+		Msg(ErrorMsg, "Could not Lookup Members: ", err)
+		return input
+	}
+
 	// Check for guild members that match
-	for _, member := range State.Guild.Members {
-		if strings.HasPrefix(member.Nick, input[1:]) {
+	for _, member := range members {	
+		if strings.HasPrefix(member.Nick, name) {
 			return member.User.Mention()
 		}
 
-		if strings.HasPrefix(member.User.Username, input[1:]) {
+		if strings.HasPrefix(member.User.Username, name) {
 			return member.User.Mention()
 		}
 	}
-
+	
 	// Walk all PM channels
 	userChannels, err := Session.DiscordGo.UserChannels()
 
@@ -191,7 +204,7 @@ func ReplaceMentions(input string) string {
 
 	for _, channel := range userChannels {
 		for _, recipient := range channel.Recipients {
-			if strings.HasPrefix(input[1:], recipient.Username) {
+			if strings.HasPrefix(name, recipient.Username) {
 				return recipient.Mention()
 			}
 		}

@@ -38,8 +38,8 @@ cd $GOPATH/src
 
 # Other deps
 
-echo Downloading bitbucket.org/mischief/libauth…
-go get bitbucket.org/mischief/libauth
+echo Downloading github.com/Plan9-Archive/libauth…
+go get github.com/Plan9-Archive/libauth
 
 cd $GOPATH/src
 

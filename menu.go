@@ -167,14 +167,17 @@ Start:
 		ExtraGuildMenuOptions()
 		goto Start
 	}
+
 	if response == "p" {
 		if State != nil {
 			SelectPrivate()
 		} else {
 			State, err = Session.NewState(SelectMap[0], Config.Messages)
+			
 			if err != nil {
 				log.Fatal(err)
 			}
+			
 			SelectPrivate()
 		}
 	} else {

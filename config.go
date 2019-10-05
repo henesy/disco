@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bitbucket.org/mischief/libauth"
+	"github.com/Plan9-Archive/libauth"
 	"bufio"
 	"fmt"
 	"github.com/mischief/ndb"
