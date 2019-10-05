@@ -84,7 +84,7 @@ If you can connect to a channel and see messages, but yours aren't sending, chec
 
 Q: What if `go get` doesn't work?
 
-A: If you want to use `go get` on 9front to install disco and its dependencies (recommended) you should use [driusan's dgit](https://github.com/driusan/dgit) as `git`.
+A: If you want to use `go get` on 9front to install disco and its dependencies (recommended) you should use [driusan's dgit](https://github.com/driusan/dgit) as `git`. Alternatively, on 9front specifically, you can wrap Ori's [git9](https://github.com/oridb/git9). 
 
 Q: What if I can't login because of a captcha error?
 
