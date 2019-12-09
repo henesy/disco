@@ -19,7 +19,6 @@ Ndb config is in `$home/lib/disco.ndb` for setting password, should be made auto
 
 ```
 % go get github.com/henesy/disco
-% go install github.com/henesy/disco
 ```
 
 ## Usage
