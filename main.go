@@ -7,8 +7,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/henesy/disco/DiscordState"
-	"io"
 	"log"
+	"io"
 	"os"
 	"regexp"
 	"strings"
@@ -83,7 +83,10 @@ func main() {
 		//line, _ := rl.Readline()
 		line, err := reader.ReadString('\n')
 
-		if err == io.EOF {
+		if err != nil {
+			if err != io.EOF {
+				fmt.Println("Line read error:", err)
+			}
 			break
 		}
 
